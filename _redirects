@@ -1,2 +1,2 @@
 # Redirects from what the browser requests to what we serve
-/* http://fallout.fm:8000/:splat 200
+https://fallout.fm/* http://fallout.fm:8000/:splat 200
