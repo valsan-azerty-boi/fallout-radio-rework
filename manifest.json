@@ -1,4 +1,6 @@
 {
+    "short_name": "fallout-radio-rework",
+    "name": "fallout-radio-rework",
     "start_url": "index.html?source=pwa",
     "scope": "./",
     "icons": [
