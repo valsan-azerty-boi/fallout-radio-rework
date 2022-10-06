@@ -1,4 +1,6 @@
 # fallout-radio-rework
+[![Commit](https://img.shields.io/github/last-commit/valsan-azerty-boi/fallout-radio-rework.svg)](https://github.com/valsan-azerty-boi/fallout-radio-rework/commits/master)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f99b95d4-86cd-4852-bff5-39ae91e191bf/deploy-status)](https://app.netlify.com/sites/fallout-radio-rework/deploys)
 ## A simple fanmade reskin and rework of Fallout FM
 I made it because I don't like the base css of their app but love the concept.
 ## It's a work in progress
