@@ -20,39 +20,46 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="center">
-            <button onclick='upAudio()'>Up</button>
-            <button onclick='downAudio()'>Down</button>
 
-            <br />
-            <br />
+    <!-- <button onclick='upAudio()'>Up</button>
+    <button onclick='downAudio()'>Down</button>
 
-            <button onclick='playAudio("Main Station", "/api/falloutfm1.ogg")'>Main Station</button>
-            <br />
-            <button onclick='playAudio("Fallout 76 Classical", "/api/falloutfm9.ogg")'>Fallout 76
-                Classical</button>
-            <br />
-            <button onclick='playAudio("Fallout 76 General", "/api/falloutfm10.ogg")'>Fallout 76 General</button>
-            <br />
-            <button onclick='playAudio("Fallout 4 Classical Radio", "/api/falloutfm7.ogg")'>Fallout 4 Classical
-                Radio</button>
-            <br />
-            <button onclick='playAudio("Fallout 4 Diamond City Radio", "/api/falloutfm6.ogg")'>Fallout 4 Diamond City
-                Radio</button>
-            <br />
-            <button onclick='playAudio("Fallout 4 MWTCF", "/api/falloutfm8.ogg")'>Fallout 4 MWTCF</button><br />
-            <button onclick='playAudio("Fallout 3 Galaxy News Radio", "/api/falloutfm2.ogg")'>Fallout 3 Galaxy News
-                Radio</button>
-            <br />
-            <button onclick='playAudio("Fallout NV Radio New Vegas", "/api/falloutfm3.ogg")'>Fallout NV Radio New
-                Vegas</button>
-            <br />
-            <button onclick='playAudio("Fallout 2 OST", "/api/falloutfm4.ogg")'>Fallout 2 OST</button>
-            <br />
-            <button onclick='playAudio("Fallout 1 OST", "/api/falloutfm5.ogg")'>Fallout 1 OST</button>
-        </div>
+    <br />
+    <br />
+
+    <button onclick='playAudio("Main Station", "http://fallout.fm:8000/falloutfm1.ogg")'>Main Station</button>
+    <br />
+    <button onclick='playAudio("Fallout 76 Classical", "/api/falloutfm9.ogg")'>Fallout 76
+        Classical</button>
+    <br />
+    <button onclick='playAudio("Fallout 76 General", "/api/falloutfm10.ogg")'>Fallout 76 General</button>
+    <br />
+    <button onclick='playAudio("Fallout 4 Classical Radio", "/api/falloutfm7.ogg")'>Fallout 4 Classical
+        Radio</button>
+    <br />
+    <button onclick='playAudio("Fallout 4 Diamond City Radio", "/api/falloutfm6.ogg")'>Fallout 4 Diamond City
+        Radio</button>
+    <br />
+    <button onclick='playAudio("Fallout 4 MWTCF", "/api/falloutfm8.ogg")'>Fallout 4 MWTCF</button><br />
+    <button onclick='playAudio("Fallout 3 Galaxy News Radio", "/api/falloutfm2.ogg")'>Fallout 3 Galaxy News
+        Radio</button>
+    <br />
+    <button onclick='playAudio("Fallout NV Radio New Vegas", "/api/falloutfm3.ogg")'>Fallout NV Radio New
+        Vegas</button>
+    <br />
+    <button onclick='playAudio("Fallout 2 OST", "/api/falloutfm4.ogg")'>Fallout 2 OST</button>
+    <br />
+    <button onclick='playAudio("Fallout 1 OST", "/api/falloutfm5.ogg")'>Fallout 1 OST</button> -->
+
+    <div class="div-flex">
+        <img src="img/radio.png" alt="Radio station machine" title="radio" usemap="#radiomap" draggable="false" />
     </div>
+    <map name="radiomap">
+        <area target="_self" alt="Volume button" title="volume" href="#" coords="104,272,27" shape="circle"
+            onclick="clicChangeVolume()">
+        <area target="_self" alt="Station button" title="station" href="#" coords="372,298,27" shape="circle"
+            onclick="clicChangeStation()">
+    </map>
 
     <input id="audioLevel" name="audioLevel" type="number" style="display: none" value="0.5"></input>
     <audio id="audio" />

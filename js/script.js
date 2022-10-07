@@ -1,3 +1,11 @@
+async function clicChangeStation() {
+    console.log("You clicked clicChangeStation");
+}
+
+async function clicChangeVolume() {
+    console.log("You clicked clicChangeVolume");
+}
+
 async function playAudio(libelle, audio_flux) {
     try {
         $("audio").remove();
@@ -36,7 +44,6 @@ async function downAudio() {
     }
 }
 
-
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -69,4 +76,23 @@ function checkCookie() {
     }
 }
 
+function checkAudioPaused() {
+    if (!$("#audio").paused) {
+        console.log("audio on");
+    } else {
+        console.log("audio off");
+    }
+
+}
+
+async function sleep(ms) {
+    await new Promise(
+        resolve => setTimeout(resolve, ms)
+    );
+}
+
 checkCookie();
+// while (true) {
+//     checkAudioPaused();
+//     sleep(2000);
+// }
