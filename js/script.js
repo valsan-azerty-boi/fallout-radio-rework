@@ -1,3 +1,15 @@
+const falloutFmUri = "http://fallout.fm:8000";
+
+const defaultAudioVolume = 0.5;
+const defaultStationId = 1;
+
+var actualStationId = 1;
+var actualStationName = "";
+var actualStationUri = "";
+var actualStationVolume = 0.5;
+
+const input = $("#sliderAudio")[0];
+
 const stationList = [
     { id: 1, name: "Main Station", route: "/api/falloutfm1.ogg" },
     { id: 2, name: "Fallout 76 Classical", route: "/api/falloutfm9.ogg" },
@@ -11,87 +23,25 @@ const stationList = [
     { id: 10, name: "Fallout 1 OST", route: "/api/falloutfm5.ogg" }
 ];
 
-const falloutFmUri = "http://fallout.fm:8000";
-var actualStationId = null;
-var index = -1;
+stationList.forEach(element => {
+    $('#station-list').append("<li><a onClick=\"playAudio(" + element.id + ",'" + element.name + "','" + element.route + "')\">" + element.name + "</a></li>");
+});
 
-async function clicChangeStation() {
-    var uri = "";
-
-    if (actualStationId == null || actualStationId < 0) {
-        index = 0;
-    } else if (stationList.length == index + 1) {
-        index = 0;
-    }
-    else {
-        index = index + 1;
-    }
-
-    actualStationId = stationList[index].id;
-
-    if (window.location.href.indexOf("netlify") > -1) {
-        uri = stationList[index].route;
-    }
-    else {
-        uri = falloutFmUri + stationList[index].route.replace('/api', '');
-    }
-
+async function playAudio(id, libelle, audio_flux) {
     try {
         $("audio").remove();
-        $("body").append('<audio id="audio" autoplay src="' + uri + '" />');
+        if (window.location.href.indexOf("netlify") > -1) {
+            actualStationUri = audio_flux;
+        }
+        else {
+            actualStationUri = falloutFmUri + audio_flux.replace('/api', '');
+        }
+        $("body").append('<audio id="audio" autoplay src="' + actualStationUri + '" />');
         $("#audio").prop("volume", $("#audioLevel").val());
-    } catch (ex) {
-        console.log('Failed to play: ' + stationList[index].name + ', Exception: ' + ex);
-    }
-}
-
-async function clicChangeVolume() {
-    try {
-        var $input = $('#audioLevel');
-        $input.val(+$input.val() + 0.1);
-        if ($input.val() > 1)
-            $input.val(0);
-        $("#audio").prop("volume", $input.val());
-        setCookie("audioLevel", $input.val(), 365);
-    } catch (ex) {
-        console.log('Failed to turn up audio level, Exception: ' + ex);
-    }
-}
-
-async function playAudio(libelle, audio_flux) {
-    try {
-        $("audio").remove();
-        $("body").append('<audio id="audio" autoplay src="' + audio_flux + '" />');
-        $("#audio").prop("volume", $("#audioLevel").val());
+        setCookie("station", id, 365);
         console.log('Playing: ' + libelle);
     } catch (ex) {
         console.log('Failed to play: ' + libelle + ', Exception: ' + ex);
-    }
-}
-
-async function upAudio() {
-    try {
-        var $input = $('#audioLevel');
-        $input.val(+$input.val() + 0.1);
-        if ($input.val() > 1)
-            $input.val(1);
-        $("#audio").prop("volume", $input.val());
-        setCookie("audioLevel", $input.val(), 365);
-    } catch (ex) {
-        console.log('Failed to turn up audio level, Exception: ' + ex);
-    }
-}
-
-async function downAudio() {
-    try {
-        var $input = $('#audioLevel');
-        $input.val(+$input.val() - 0.1);
-        if ($input.val() < 0)
-            $input.val(0);
-        $("#audio").prop("volume", $input.val());
-        setCookie("audioLevel", $input.val(), 365);
-    } catch (ex) {
-        console.log('Failed to turn down audio level, Exception: ' + ex);
     }
 }
 
@@ -128,11 +78,23 @@ function getCookie(cname) {
 
 function checkCookie() {
     let audioLevel = getCookie("audioLevel");
-    if (audioLevel != "") {
+    if (audioLevel != null && audioLevel != "") {
+        actualStationVolume = audioLevel;
         $('#audioLevel').val(audioLevel);
     } else {
+        actualStationVolume = 0.5;
         setCookie("audioLevel", 0.5, 365);
     }
+
+    let station = getCookie("station");
+    if (station != null && station != "" && station != 0) {
+        actualStationId = station;
+    } else {
+        actualStationId = 1;
+        setCookie("station", 1, 365);
+    }
+    actualStationName = stationList[actualStationId - 1].name;
+    actualStationUri = stationList[actualStationId - 1].route;
 }
 
 function checkAudioPaused() {
@@ -149,7 +111,34 @@ async function sleep(ms) {
     );
 }
 
+async function setAudio(value) {
+    try {
+        actualStationVolume = value;
+        var $input = $('#audioLevel');
+        $input.val(value);
+        $("#audio").prop("volume", value);
+        $("input[type=range]").val(value * 20);
+        input.style.setProperty("--thumb-rotate", `${value * 720}deg`);
+        setCookie("audioLevel", value, 365);
+    } catch (ex) {
+        console.log('Failed to set audio level, Exception: ' + ex);
+    }
+}
+
 checkCookie();
+setAudio(actualStationVolume);
+
+input.addEventListener("input", event => {
+    const value = Number(input.value) / 20;
+    input.style.setProperty("--thumb-rotate", `${value * 720}deg`);
+    actualStationVolume = value;
+    var $input = $('#audioLevel');
+    $input.val(value);
+    $("#audio").prop("volume", value);
+    setCookie("audioLevel", value, 365);
+});
+
+console.log("Volume on page load is: " + actualStationVolume);
 
 $("#year").text(new Date().getFullYear());
 
@@ -206,6 +195,8 @@ if (has_mouse_support || !is_touch_device) {
         tooltipSpanStationMouse.style.top = y;
         tooltipSpanStationMouse.style.left = x;
     };
+} else {
+    $("img#radio").attr("src", "img/radio-touch-device.png");
 };
 
 (function ($, window, document) {
@@ -328,3 +319,23 @@ function switchFullscreenMenu(idMenuToClose, idMenuToOpen) {
     $('#' + idMenuToClose).hide();
     $('#' + idMenuToOpen).show();
 }
+
+document.body.addEventListener('keypress', function (e) {
+    if (e.key == "Escape") {
+
+    }
+});
+
+document.onkeydown = function (evt) {
+    evt = evt || window.event;
+    var isEscape = false;
+    if ("key" in evt) {
+        isEscape = (evt.key === "Escape" || evt.key === "Esc");
+    } else {
+        isEscape = (evt.keyCode === 27);
+    }
+    if (isEscape) {
+        closeFullscreenMenu("nav-menu-volume");
+        closeFullscreenMenu("nav-menu-station");
+    }
+};

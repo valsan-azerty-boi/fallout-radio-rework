@@ -19,19 +19,25 @@
     <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/style.menu.css" />
 </head>
 
 <body class="noselect">
-
     <div id="nav-menu-volume" class="fat-nav nav-volume">
         <div class="fat-nav__wrapper">
+            <br />
             <ul>
                 <h1>Volume</h1>
-                <li><a onclick="downAudio()">Down -</a> <a onclick="upAudio()">+ Up</a></li>
-
                 <br />
-                <li><a onClick="switchFullscreenMenu('nav-menu-volume','nav-menu-station')">Got to station
+                <br />
+                <li>
+                    <input id="sliderAudio" name="sliderAudio" type="range" min="0" max="20" />
+                </li>
+            </ul>
+            <br />
+            <br />
+            <ul class="sub-menu-li">
+                <li class="sub-menu-li"><a onClick="switchFullscreenMenu('nav-menu-volume','nav-menu-station')">Go to
+                        station
                         menu</a>
                 </li>
                 <li><a onClick="closeFullscreenMenu('nav-menu-volume')">Close menu</a></li>
@@ -41,10 +47,11 @@
 
     <div id="nav-menu-station" class="fat-nav nav-station">
         <div class="fat-nav__wrapper">
-            <ul>
+            <br />
+            <ul id="station-list">
                 <h1>Station</h1>
-                <li><a onclick="clicChangeStation()">Listen a station</a></li>
-                <br />
+            </ul>
+            <ul class="sub-menu-li">
                 <li><a onClick="switchFullscreenMenu('nav-menu-station','nav-menu-volume')">Go to volume menu</a></li>
                 <li><a onClick="closeFullscreenMenu('nav-menu-station')">Close menu</a></li>
             </ul>
@@ -55,39 +62,38 @@
         <div class="is-above">
             <h1>fallout-radio-rework</h1>
         </div>
+        <br />
         <img id="radio" class="responsive-img" src="img/radio.png" alt="Radio station machine" usemap="#radiomap"
             draggable="false" />
     </div>
     <map name="radiomap">
         <div class="tooltip-mouse">
-            <area id="areaChangeVolume" target="_self" alt="Volume button" href="javascript:void(0)" class="hamburger"
-                coords="244,620,42" shape="circle"><a></a></area>
+            <area data-name="areaChangeVolume" id="areaChangeVolume" target="_self" alt="Volume button"
+                href="javascript:void(0)" class="hamburger" coords="244,620,42" shape="circle"><a></a></area>
             <span id="tooltip-span-volume-mouse">
                 Volume
             </span>
         </div>
         <div class="tooltip-mouse">
-            <area id="areaChangeStation" target="_self" alt="Station button" href="javascript:void(0)" class="hamburger"
-                coords="655,593,38" shape="circle">
+            <area data-name="areaChangeStation" id="areaChangeStation" target="_self" alt="Station button"
+                href="javascript:void(0)" class="hamburger" coords="655,593,38" shape="circle">
             <span id="tooltip-span-station-mouse">
                 Station
             </span>
         </div>
         <div class="tooltip-no-mouse">
-            <area id="area-span-volume-no-mouse" alt="Volume" coords="237,560,238,562" shape="rect">
+            <area data-name="area-span-volume-no-mouse" id="area-span-volume-no-mouse" alt="Volume"
+                coords="237,560,238,562" shape="rect">
+            <area data-name="area-span-station-no-mouse" id="area-span-station-no-mouse" alt="Station"
+                coords="649,537,651,539" shape="rect">
         </div>
-        <div class="tooltip-no-mouse">
-            <area id="area-span-station-no-mouse" alt="Station" coords="649,537,651,539" shape="rect">
-        </div>
-        <div class="">
-            <area alt="Station name" coords="452,489,454,490" shape="rect">
-            <span id="tooltip-span-station-name">
-                00.0
-            </span>
+        <div>
+            <area data-name="station-name-area" alt="Station name" coords="452,489,454,490" shape="rect">
         </div>
     </map>
     <div>
-        <p>Interact with buttons on the radio to listen to a station.</p>
+        <p>How can I use it ?</p>
+        <p>Just interact with buttons on the radio to listen to a station.</p>
     </div>
     <div>
         <h4>
@@ -104,7 +110,7 @@
 
     <script type="text/javascript" src='js/jquery.min.js'></script>
     <script type="text/javascript" src='js/jquery.rwdImageMaps.min.js'></script>
-    <script src='js/script.js'></script>
+    <script type="text/javascript" src='js/script.js'></script>
 </body>
 
 </html>
