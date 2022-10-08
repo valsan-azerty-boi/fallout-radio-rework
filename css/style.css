@@ -12,9 +12,15 @@ html {
     src: url('../fonts/Gothic821.ttf');
 }
 
-@font-face {
-    font-family: "JH_Fallout";
-    src: url('../fonts/JH_Fallout.ttf');
+.container {
+    position: relative;
+}
+
+.is-above {
+    align-items: center;
+    position: absolute;
+    left: 5%;
+    z-index: 1000;
 }
 
 h1 {
@@ -24,11 +30,11 @@ h1 {
     font-size: 42px;
 }
 
-h3 {
-    font-family: "Fallouty";
-    color: rgb(255, 255, 255);
+p {
+    font-family: "Gothic821";
+    color: rgb(255, 255, 255, .7);
     text-align: center;
-    font-size: 22px;
+    font-size: 28px;
 }
 
 h4 {
@@ -72,16 +78,28 @@ a {
     position: relative;
 }
 
-.tooltip-mouse span {
-    display: none;
-    font-family: "Fallouty";
-    color: rgb(0, 139, 0);
-    text-align: center;
-    font-size: 28px;
+@media (pointer: fine) {
+    .tooltip-mouse span {
+        display: none;
+        font-family: "Gothic821";
+        color: rgb(0, 139, 0);
+        text-align: center;
+        font-size: 28px;
+    }
+
+    .tooltip-mouse:hover span {
+        display: block;
+        position: fixed;
+        overflow: hidden;
+    }
 }
 
-.tooltip-mouse:hover span {
-    display: block;
-    position: fixed;
-    overflow: hidden;
+@media (pointer: coarse) {
+    .tooltip-no-mouse span {
+        display: block;
+        font-family: "Gothic821";
+        color: rgb(0, 139, 0);
+        text-align: center;
+        font-size: 28px;
+    }
 }
