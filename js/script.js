@@ -141,7 +141,6 @@ function checkAudioPaused() {
     } else {
         console.log("audio off");
     }
-
 }
 
 async function sleep(ms) {
@@ -248,7 +247,6 @@ if (has_mouse_support || !is_touch_device) {
         toggleBodyOverflow: function () {
             var self = this;
             var $body = $('body');
-            $body.toggleClass('no-scroll');
             var isNavOpen = $body.hasClass('no-scroll');
             $body.css('overflow', isNavOpen ? 'hidden' : self._bodyOverflow);
         }
@@ -305,7 +303,6 @@ if (has_mouse_support || !is_touch_device) {
         toggleBodyOverflow: function () {
             var self = this;
             var $body = $('body');
-            $body.toggleClass('no-scroll');
             var isNavOpen = $body.hasClass('no-scroll');
             $body.css('overflow', isNavOpen ? 'hidden' : self._bodyOverflow);
         }
@@ -322,3 +319,12 @@ if (has_mouse_support || !is_touch_device) {
 (function () {
     $.fatNavStation();
 }());
+
+function closeFullscreenMenu(idMenuToClose) {
+    $('#' + idMenuToClose).hide();
+}
+
+function switchFullscreenMenu(idMenuToClose, idMenuToOpen) {
+    $('#' + idMenuToClose).hide();
+    $('#' + idMenuToOpen).show();
+}
