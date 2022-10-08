@@ -158,14 +158,167 @@ $(document).ready(function (e) {
     $('img[usemap]').rwdImageMaps();
 });
 
-var tooltipSpanVolumeMouse = document.getElementById('tooltip-span-volume-mouse');
-var tooltipSpanStationMouse = document.getElementById('tooltip-span-station-mouse');
+function isWindow(obj) {
+    return obj != null && obj === obj.window;
+}
+function getWindow(elem) {
+    return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
+}
+function offset(elem) {
 
-window.onmousemove = function (e) {
-    var x = (e.clientX - 40) + 'px',
-        y = (e.clientY - 40) + 'px';
-    tooltipSpanVolumeMouse.style.top = y;
-    tooltipSpanVolumeMouse.style.left = x;
-    tooltipSpanStationMouse.style.top = y;
-    tooltipSpanStationMouse.style.left = x;
+    var docElem, win,
+        box = { top: 0, left: 0 },
+        doc = elem && elem.ownerDocument;
+
+    docElem = doc.documentElement;
+
+    if (typeof elem.getBoundingClientRect !== typeof undefined) {
+        box = elem.getBoundingClientRect();
+    }
+    win = getWindow(doc);
+    return {
+        top: box.top + win.pageYOffset - docElem.clientTop,
+        left: box.left + win.pageXOffset - docElem.clientLeft
+    };
 };
+
+var is_touch_device = (('ontouchstart' in window) ||
+    (navigator.maxTouchPoints > 0) ||
+    (navigator.msMaxTouchPoints > 0));
+
+var has_mouse_support = false;
+document.addEventListener("pointermove", function (evt) {
+    var pointerType = evt.pointerType;
+    /*** Safari quirk  ***/
+    if (pointerType === "touch" && evt.height === 117.97119140625
+        && evt.height === evt.width) pointerType = "mouse";
+    /*** Safari quirk  ***/
+    has_mouse_support = (pointerType === "mouse");
+});
+
+if (has_mouse_support || !is_touch_device) {
+    var tooltipSpanVolumeMouse = document.getElementById('tooltip-span-volume-mouse');
+    var tooltipSpanStationMouse = document.getElementById('tooltip-span-station-mouse');
+    window.onmousemove = function (e) {
+        var x = (e.clientX - 40) + 'px',
+            y = (e.clientY - 40) + 'px';
+        tooltipSpanVolumeMouse.style.top = y;
+        tooltipSpanVolumeMouse.style.left = x;
+        tooltipSpanStationMouse.style.top = y;
+        tooltipSpanStationMouse.style.left = x;
+    };
+};
+
+(function ($, window, document) {
+    var pluginName = 'fatNavVolume',
+        defaults = {};
+
+    function Plugin(options) {
+        this.settings = $.extend({}, defaults, options);
+        this._defaults = defaults;
+        this._name = pluginName;
+        this.init();
+    }
+
+    $.extend(Plugin.prototype, {
+        init: function () {
+            var self = this;
+            var $nav = this.$nav = $('.nav-volume');
+            var $hamburger = this.$hamburger = $('#areaChangeVolume');
+
+            if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
+                $nav.children().css({
+                    'height': '110%',
+                    'transform': 'translateY(-5%)'
+                });
+            }
+
+            $().add($hamburger).on('click', function (e) {
+                self.toggleNav();
+            });
+        },
+
+        toggleNav: function () {
+            var self = this;
+            this.$nav.fadeToggle(400);
+            self.toggleBodyOverflow();
+            $().add(this.$hamburger).add(this.$nav).toggleClass('active');
+        },
+
+        toggleBodyOverflow: function () {
+            var self = this;
+            var $body = $('body');
+            $body.toggleClass('no-scroll');
+            var isNavOpen = $body.hasClass('no-scroll');
+            $body.css('overflow', isNavOpen ? 'hidden' : self._bodyOverflow);
+        }
+
+    });
+
+    if (typeof $[pluginName] === 'undefined') {
+        $[pluginName] = function (options) {
+            return new Plugin(this, options);
+        };
+    }
+}(jQuery, window, document));
+
+(function () {
+    $.fatNavVolume();
+}());
+
+(function ($, window, document) {
+    var pluginName = 'fatNavStation',
+        defaults = {};
+
+    function Plugin(options) {
+        this.settings = $.extend({}, defaults, options);
+        this._defaults = defaults;
+        this._name = pluginName;
+        this.init();
+    }
+
+    $.extend(Plugin.prototype, {
+        init: function () {
+            var self = this;
+            var $nav = this.$nav = $('.nav-station');
+            var $hamburger = this.$hamburger = $('#areaChangeStation');
+
+            if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
+                $nav.children().css({
+                    'height': '110%',
+                    'transform': 'translateY(-5%)'
+                });
+            }
+
+            $().add($hamburger).on('click', function (e) {
+                self.toggleNav();
+            });
+        },
+
+        toggleNav: function () {
+            var self = this;
+            this.$nav.fadeToggle(400);
+            self.toggleBodyOverflow();
+            $().add(this.$hamburger).add(this.$nav).toggleClass('active');
+        },
+
+        toggleBodyOverflow: function () {
+            var self = this;
+            var $body = $('body');
+            $body.toggleClass('no-scroll');
+            var isNavOpen = $body.hasClass('no-scroll');
+            $body.css('overflow', isNavOpen ? 'hidden' : self._bodyOverflow);
+        }
+
+    });
+
+    if (typeof $[pluginName] === 'undefined') {
+        $[pluginName] = function (options) {
+            return new Plugin(this, options);
+        };
+    }
+}(jQuery, window, document));
+
+(function () {
+    $.fatNavStation();
+}());
