@@ -27,22 +27,23 @@ h1 {
     font-family: "Gothic821";
     color: rgb(0, 100, 0);
     text-align: center;
-    font-size: 42px;
+    font-size: calc(35px + 0.390625vw);
 }
 
 p {
     font-family: "Gothic821";
     color: rgb(255, 255, 255, .7);
     text-align: center;
-    font-size: 28px;
+    font-size: calc(20px + 0.390625vw);
 }
 
 h4 {
     font-family: "Fallouty";
     color: rgb(0, 100, 0);
     text-align: center;
-    font-size: 18px;
+    font-size: calc(15px + 0.390625vw);
 }
+
 
 .responsive-img {
     position: relative;
@@ -80,14 +81,16 @@ a {
 
 @media (pointer: fine) {
     .tooltip-mouse span {
+        pointer-events: none;
         display: none;
         font-family: "Gothic821";
         color: rgb(0, 139, 0);
         text-align: center;
-        font-size: 28px;
+        font-size: calc(32px + 0.390625vw);
     }
 
     .tooltip-mouse:hover span {
+        pointer-events: none;
         display: block;
         position: fixed;
         overflow: hidden;
@@ -100,6 +103,135 @@ a {
         font-family: "Gothic821";
         color: rgb(0, 139, 0);
         text-align: center;
-        font-size: 28px;
+        font-size: calc(32px + 0.390625vw);
     }
+}
+
+.nav-station,
+.nav-volume,
+.fat-nav {
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .9);
+}
+
+.fat-nav__wrapper {
+    width: 100%;
+    height: 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+.fat-nav ul {
+    vertical-align: middle;
+    margin: 0;
+    padding: calc(8px + 0.40vw);
+}
+
+.fat-nav li {
+    list-style-type: none;
+    text-align: center;
+    padding: 0;
+    font-size: calc(25px + 0.40vw);
+}
+
+.fat-nav li a {
+    font-family: "Gothic821";
+    text-decoration: none;
+    color: rgb(0, 100, 0);
+    text-align: center;
+    font-size: calc(25px + 0.40vw);
+    border: 1px dotted;
+}
+
+.sub-menu-li li a {
+    font-family: "Gothic821";
+    text-decoration: none;
+    color: rgb(0, 100, 0);
+    text-align: center;
+    font-size: calc(28px + 0.40vw);
+    border: none;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    background: transparent;
+    width: 65%;
+    max-width: 500px;
+    outline: none;
+}
+
+input[type="range"]:focus,
+input[type="range"]:active,
+input[type="range"]::-moz-focus-inner,
+input[type="range"]::-moz-focus-outer {
+    border: 0;
+    outline: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+    border: none;
+    height: 25px;
+    width: 25px;
+    background-color: transparent;
+    background-image: url("../img/volume.png");
+    background-position: 0 0;
+    background-size: cover;
+    transform: scale(1.9) rotateZ(var(--thumb-rotate, 10deg));
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb:active {
+    background-position: 100% 0px;
+    transform: scale(2) rotateZ(var(--thumb-rotate, 10deg));
+}
+
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 20px;
+    background: #eee;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-progress {
+    height: 20px;
+    background: #4685d7;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    border: none;
+    height: 25px;
+    width: 25px;
+    background-color: transparent;
+    background-image: url("../img/volume.png");
+    background-position: 0 0;
+    background-size: cover;
+    transform: scale(1.9) rotateZ(var(--thumb-rotate, 10deg));
+    cursor: pointer;
+    margin-top: -3px;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    background-position: 100% 0px;
+    transform: scale(2) rotateZ(var(--thumb-rotate, 10deg));
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 20px;
+    background: #eee;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    -webkit-appearance: none;
 }
