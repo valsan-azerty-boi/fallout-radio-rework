@@ -57,6 +57,7 @@ h4 {
     width: auto;
     max-height: 100vh;
     object-fit: cover;
+    -webkit-tap-highlight-color: transparent;
 }
 
 a {
