@@ -1,6 +1,9 @@
 $("div#ie").remove();
 $('body').attr('oncontextmenu', 'return false;');
 $('img').attr('draggable', 'false');
+$('#sliderAudio').attr('oncontextmenu', 'return false;');
+$('#sliderAudio').attr('draggable', 'false');
+$('#pause-button').hide();
 
 const falloutFmUri = "http://fallout.fm:8000";
 
@@ -28,12 +31,15 @@ const stationList = [
 ];
 
 stationList.forEach(element => {
-    $('#station-list').append("<li><a onClick=\"playAudio(" + element.id + ",'" + element.name + "','" + element.route + "')\">" + element.name + "</a></li>");
+    $('#station-list-pc-tab').append("<li><a onClick=\"playAudio(" + element.id + ",'" + element.name + "','" + element.route + "')\">" + element.name + "</a></li>");
+    $('#station-list-mobile').append("<option value='" + element.id + "'>" + element.name + "</option>");
 });
 
 async function playAudio(id, libelle, audio_flux) {
     try {
         $("audio").remove();
+        actualStationId = id;
+        actualStationName = libelle;
         if (window.location.href.indexOf("netlify") > -1) {
             actualStationUri = audio_flux;
         }
@@ -42,6 +48,10 @@ async function playAudio(id, libelle, audio_flux) {
         }
         $("body").append('<audio id="audio" autoplay src="' + actualStationUri + '" />');
         $("#audio").prop("volume", $("#audioLevel").val());
+        $('#play-button').hide();
+        $('#pause-button').show();
+        $("#station-list-mobile").val(id);
+        $('text').html(libelle);
         setCookie("station", id, 365);
         console.log('Playing: ' + libelle);
     } catch (ex) {
@@ -49,11 +59,27 @@ async function playAudio(id, libelle, audio_flux) {
     }
 }
 
+async function playSelectedAudio() {
+    var value = $("#station-list-mobile option:selected").val();
+    if (value != 0) {
+        var station = stationList[value - 1];
+        playAudio(station.id, station.name, station.route);
+    }
+}
+
+async function stopSelectedAudio() {
+    stopAudio();
+    $('#pause-button').hide();
+    $('#play-button').show();
+    $('text').html("No station");
+    console.log('Stop audio');
+}
+
 async function stopAudio() {
     try {
         $("audio").remove();
     } catch (ex) {
-        console.log('Failed to turn stop audio, Exception: ' + ex);
+        console.log('Failed to stop audio, Exception: ' + ex);
     }
 }
 
@@ -99,6 +125,7 @@ function checkCookie() {
     }
     actualStationName = stationList[actualStationId - 1].name;
     actualStationUri = stationList[actualStationId - 1].route;
+    $("#station-list-mobile").val(actualStationId);
 }
 
 function checkAudioPaused() {
@@ -359,3 +386,48 @@ function onBackKeyDown(e) {
         closeFullscreenMenu("nav-menu-station");
     }
 };
+
+$(document).ready(function () {
+    if (window.matchMedia("(max-width: 767px)").matches) {
+        closeFullscreenMenu("nav-menu-volume");
+        closeFullscreenMenu("nav-menu-station");
+        $('.pc-tab').hide();
+        $("#sliderAudio").appendTo("#sliderAudioMobileLi");
+        $('.mobile').show();
+    } else {
+
+        $('.mobile').hide();
+        $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
+        $('.pc-tab').show();
+    }
+});
+
+$(window).bind('orientationchange', check);
+function check() {
+    if (document.documentElement.clientWidth >= 767) {
+        $('.mobile').hide();
+        $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
+        $('.pc-tab').show();
+    } else {
+        closeFullscreenMenu("nav-menu-volume");
+        closeFullscreenMenu("nav-menu-station");
+        $('.pc-tab').hide();
+        $("#sliderAudio").appendTo("#sliderAudioMobileLi");
+        $('.mobile').show();
+    }
+};
+
+$(window).resize(function () {
+    if (document.documentElement.clientWidth >= 767) {
+        $('.mobile').hide();
+        $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
+        $('.pc-tab').show();
+    } else {
+        closeFullscreenMenu("nav-menu-volume");
+        closeFullscreenMenu("nav-menu-station");
+        $('.pc-tab').hide();
+        $("#sliderAudio").appendTo("#sliderAudioMobileLi");
+        $('.mobile').show();
+    }
+}).resize();
+
