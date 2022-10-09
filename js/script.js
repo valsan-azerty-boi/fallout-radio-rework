@@ -197,6 +197,10 @@ if (has_mouse_support || !is_touch_device) {
     };
 } else {
     $("img#radio").attr("src", "img/radio-touch-device.png");
+    $("img#radio").on("taphold", function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    })
 };
 
 (function ($, window, document) {
