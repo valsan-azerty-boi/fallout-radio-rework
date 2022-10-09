@@ -199,7 +199,7 @@ if (has_mouse_support || !is_touch_device) {
     };
 } else {
     $("img#radio").attr("src", "img/radio-touch-device.png");
-    $("img#radio").on("taphold", function (event) {
+    $("img").on("taphold", function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
     })
@@ -341,6 +341,18 @@ document.onkeydown = function (evt) {
         isEscape = (evt.keyCode === 27);
     }
     if (isEscape) {
+        closeFullscreenMenu("nav-menu-volume");
+        closeFullscreenMenu("nav-menu-station");
+    }
+};
+
+function onDeviceReady() {
+    document.addEventListener("backbutton", onBackKeyDown, false);
+}
+
+function onBackKeyDown(e) {
+    if ($('#nav-menu-volume').is(':visible') || $('#nav-menu-station').is(':visible')) {
+        e.preventDefault();
         closeFullscreenMenu("nav-menu-volume");
         closeFullscreenMenu("nav-menu-station");
     }

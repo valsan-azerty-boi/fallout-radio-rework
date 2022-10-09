@@ -53,6 +53,10 @@ h4 {
     font-size: calc(15px + 0.390625vw);
 }
 
+img {
+    -webkit-tap-highlight-color: transparent;
+}
+
 .responsive-img {
     position: relative;
     text-align: center;
@@ -66,7 +70,6 @@ h4 {
     width: auto;
     max-height: 100vh;
     object-fit: cover;
-    -webkit-tap-highlight-color: transparent;
 }
 
 .top-button-svg {
@@ -76,11 +79,29 @@ h4 {
 }
 
 .icon-svg {
+    display: inline-flex;
+    align-self: center;
+    position: relative;
+    top: .12em;
     filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
     width: calc(35px + 0.390625vw);
 }
 
 .text-button-svg {
+    display: inline-flex;
+    align-self: center;
+    position: relative;
+    top: .06em;
+    filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
+    width: calc(28px + 0.40vw);
+    height: calc(18px + 0.40vw);
+}
+
+.text-svg {
+    display: inline-flex;
+    align-self: center;
+    position: relative;
+    top: .28em;
     filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
     width: calc(28px + 0.40vw);
     height: calc(18px + 0.40vw);
