@@ -1,4 +1,6 @@
 $("div#ie").remove();
+$('body').attr('oncontextmenu', 'return false;');
+$('img').attr('draggable', 'false');
 
 const falloutFmUri = "http://fallout.fm:8000";
 
