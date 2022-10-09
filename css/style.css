@@ -69,6 +69,27 @@ h4 {
     -webkit-tap-highlight-color: transparent;
 }
 
+.top-button-svg {
+    margin: 5px;
+    filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
+    width: calc(35px + 0.390625vw);
+}
+
+.icon-svg {
+    filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
+    width: calc(35px + 0.390625vw);
+}
+
+.text-button-svg {
+    filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
+    width: calc(28px + 0.40vw);
+    height: calc(18px + 0.40vw);
+}
+
+.flip-horizontally {
+    transform: scaleX(-1);
+}
+
 a {
     text-decoration: none;
     color: rgb(0, 100, 0);
@@ -155,6 +176,29 @@ a {
     text-align: center;
     font-size: calc(28px + 0.40vw);
     border: none;
+}
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/fonts-gstatic-material-icons-v139.woff2) format('woff2');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-size: calc(22px + 0.390625vw);
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
 }
 
 input[type="range"] {

@@ -40,9 +40,13 @@
     </div>
     <div id="nav-menu-volume" class="fat-nav nav-volume">
         <div class="fat-nav__wrapper">
+            <img src="img/cross.svg" class="top-button-svg" alt="Cross icon to leave volume menu"
+                onClick="closeFullscreenMenu('nav-menu-volume')" />
+            <img src="img/radio.svg" class="top-button-svg" alt="Radio icon to go to station menu"
+                onClick="switchFullscreenMenu('nav-menu-volume','nav-menu-station')" />
             <br />
             <ul>
-                <h1>Volume</h1>
+                <h1>Volume <img src="img/audio.svg" class="icon-svg flip-horizontally" alt="Audio icon" /></h1>
                 <br />
                 <br />
                 <li>
@@ -54,21 +58,28 @@
             <ul class="sub-menu-li">
                 <li class="sub-menu-li"><a onClick="switchFullscreenMenu('nav-menu-volume','nav-menu-station')">Go to
                         station
-                        menu</a>
+                        menu <img src="img/radio.svg" class="text-button-svg" alt="Radio icon" /></a>
                 </li>
-                <li><a onClick="closeFullscreenMenu('nav-menu-volume')">Close menu</a></li>
+                <li><a onClick="closeFullscreenMenu('nav-menu-volume')">Close menu <img src="img/cross.svg"
+                            class="text-button-svg" alt="Cross icon" /></a></li>
             </ul>
         </div>
     </div>
     <div id="nav-menu-station" class="fat-nav nav-station">
         <div class="fat-nav__wrapper">
+            <img src="img/cross.svg" class="top-button-svg" alt="Cross icon to leave station menu"
+                onClick="closeFullscreenMenu('nav-menu-station')" />
+            <img src="img/audio.svg" class="top-button-svg flip-horizontally" alt="Audio icon to go to volume menu"
+                onClick="switchFullscreenMenu('nav-menu-station','nav-menu-volume')" />
             <br />
             <ul id="station-list">
-                <h1>Station</h1>
+                <h1>Station <img src="img/radio.svg" class="icon-svg" alt="Radio icon" /></h1>
             </ul>
             <ul class="sub-menu-li">
-                <li><a onClick="switchFullscreenMenu('nav-menu-station','nav-menu-volume')">Go to volume menu</a></li>
-                <li><a onClick="closeFullscreenMenu('nav-menu-station')">Close menu</a></li>
+                <li><a onClick="switchFullscreenMenu('nav-menu-station','nav-menu-volume')">Go to volume menu <img
+                            src="img/audio.svg" class="text-button-svg flip-horizontally" alt="Audio icon" /></a></li>
+                <li><a onClick="closeFullscreenMenu('nav-menu-station')">Close menu <img src="img/cross.svg"
+                            class="text-button-svg" alt="Cross icon" /></a></li>
             </ul>
         </div>
     </div>
@@ -79,28 +90,26 @@
         <br />
         <img id="radio" class="responsive-img" src="img/radio.png" alt="Radio station machine" usemap="#radiomap"
             draggable="false" oncontextmenu="return false;" />
+        <map name="radiomap">
+            <div class="tooltip-mouse">
+                <area data-name="areaChangeVolume" id="areaChangeVolume" target="_self" alt="Volume button"
+                    href="javascript:void(0)" class="hamburger" coords="244,620,42" shape="circle"><a></a></area>
+                <span id="tooltip-span-volume-mouse">Volume <i class="material-icons">&#xe050;</i></span>
+            </div>
+            <div class="tooltip-mouse">
+                <area data-name="areaChangeStation" id="areaChangeStation" target="_self" alt="Station button"
+                    href="javascript:void(0)" class="hamburger" coords="655,593,38" shape="circle">
+                <span id="tooltip-span-station-mouse">Station <i class="material-icons">&#xe03e;</i></span>
+            </div>
+            <div>
+                <area data-name="station-name-area" alt="Station name" coords="452,489,454,490" shape="rect">
+            </div>
+        </map>
     </div>
-    <map name="radiomap">
-        <div class="tooltip-mouse">
-            <area data-name="areaChangeVolume" id="areaChangeVolume" target="_self" alt="Volume button"
-                href="javascript:void(0)" class="hamburger" coords="244,620,42" shape="circle"><a></a></area>
-            <span id="tooltip-span-volume-mouse">
-                Volume
-            </span>
-        </div>
-        <div class="tooltip-mouse">
-            <area data-name="areaChangeStation" id="areaChangeStation" target="_self" alt="Station button"
-                href="javascript:void(0)" class="hamburger" coords="655,593,38" shape="circle">
-            <span id="tooltip-span-station-mouse">
-                Station
-            </span>
-        </div>
-        <div>
-            <area data-name="station-name-area" alt="Station name" coords="452,489,454,490" shape="rect">
-        </div>
-    </map>
+
     <div>
-        <p>How can I use it ?</p>
+        <p>How can I use it ?<i class='fas fa-volume-down' style='font-size:36px'></i><i class="fa-solid fa-radio"></i>
+        </p>
         <p>Just interact with buttons on the radio to listen to a station.</p>
     </div>
     <div>
