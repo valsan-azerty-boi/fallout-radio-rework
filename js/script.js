@@ -1,3 +1,5 @@
+$("div#ie").remove();
+
 const falloutFmUri = "http://fallout.fm:8000";
 
 const defaultAudioVolume = 0.5;
@@ -197,6 +199,10 @@ if (has_mouse_support || !is_touch_device) {
     };
 } else {
     $("img#radio").attr("src", "img/radio-touch-device.png");
+    $("img#radio").on("taphold", function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    })
 };
 
 (function ($, window, document) {
