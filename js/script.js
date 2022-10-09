@@ -1,3 +1,5 @@
+$("h2#ie").remove();
+
 const falloutFmUri = "http://fallout.fm:8000";
 
 const defaultAudioVolume = 0.5;
