@@ -2,6 +2,15 @@ html {
     background-color: rgb(0, 0, 0);
 }
 
+#ie {
+    display: none;
+}
+
+h2 {
+    color: red;
+    text-align: center;
+}
+
 @font-face {
     font-family: "Fallouty";
     src: url('../fonts/Fallouty.ttf');
@@ -28,11 +37,6 @@ h1 {
     color: rgb(0, 100, 0);
     text-align: center;
     font-size: calc(35px + 0.390625vw);
-}
-
-h2 {
-    color: red;
-    text-align: center;
 }
 
 p {
@@ -99,16 +103,6 @@ a {
         display: block;
         position: fixed;
         overflow: hidden;
-    }
-}
-
-@media (pointer: coarse) {
-    .tooltip-no-mouse span {
-        display: block;
-        font-family: "Gothic821";
-        color: rgb(0, 139, 0);
-        text-align: center;
-        font-size: calc(32px + 0.390625vw);
     }
 }
 

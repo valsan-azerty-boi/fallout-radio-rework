@@ -1,4 +1,4 @@
-$("h2#ie").remove();
+$("div#ie").remove();
 
 const falloutFmUri = "http://fallout.fm:8000";
 

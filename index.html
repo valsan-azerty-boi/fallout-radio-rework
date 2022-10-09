@@ -22,8 +22,22 @@
 </head>
 
 <body class="noselect">
-    <h2 id="ie">Please do not use this browser, this app need a working browser for Html5, Css, JavaScript and jQuery.
-    </h2>
+    <div id="ie">
+        <h2>
+            Please do not use this browser, this app need a working browser for
+            Html5, Css, JavaScript and jQuery.
+        </h2>
+        <script>
+            function isIE() {
+                ua = navigator.userAgent;
+                var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+                return is_ie;
+            }
+            if (isIE()) {
+                document.getElementById("ie").style.display = "block";
+            }
+        </script>
+    </div>
     <div id="nav-menu-volume" class="fat-nav nav-volume">
         <div class="fat-nav__wrapper">
             <br />
@@ -46,7 +60,6 @@
             </ul>
         </div>
     </div>
-
     <div id="nav-menu-station" class="fat-nav nav-station">
         <div class="fat-nav__wrapper">
             <br />
@@ -59,7 +72,6 @@
             </ul>
         </div>
     </div>
-
     <div class="container">
         <div class="is-above">
             <h1>fallout-radio-rework</h1>
@@ -83,12 +95,6 @@
                 Station
             </span>
         </div>
-        <div class="tooltip-no-mouse">
-            <area data-name="area-span-volume-no-mouse" id="area-span-volume-no-mouse" alt="Volume"
-                coords="237,560,238,562" shape="rect">
-            <area data-name="area-span-station-no-mouse" id="area-span-station-no-mouse" alt="Station"
-                coords="649,537,651,539" shape="rect">
-        </div>
         <div>
             <area data-name="station-name-area" alt="Station name" coords="452,489,454,490" shape="rect">
         </div>
@@ -106,10 +112,8 @@
             <span id="year">2022</span>
         </h4>
     </div>
-
     <input id="audioLevel" name="audioLevel" type="number" style="display: none" value="0.5"></input>
     <audio id="audio" />
-
     <script type="text/javascript" src='js/jquery.min.js'></script>
     <script type="text/javascript" src='js/jquery.rwdImageMaps.min.js'></script>
     <script type="text/javascript" src='js/script.js'></script>
