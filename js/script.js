@@ -18,21 +18,36 @@ var actualStationVolume = 0.5;
 const input = $("#sliderAudio")[0];
 
 const stationList = [
-    { id: 1, name: "Main Station", route: "/api/falloutfm1.ogg" },
-    { id: 2, name: "Fallout 76 Classical", route: "/api/falloutfm9.ogg" },
-    { id: 3, name: "Fallout 76 General", route: "/api/falloutfm10.ogg" },
-    { id: 4, name: "Fallout 4 Classical Radio", route: "/api/falloutfm7.ogg" },
-    { id: 5, name: "Fallout 4 Diamond City Radio", route: "/api/falloutfm6.ogg" },
-    { id: 6, name: "Fallout 4 MWTCF", route: "/api/falloutfm8.ogg" },
-    { id: 7, name: "Fallout 3 Galaxy News Radio", route: "/api/falloutfm2.ogg" },
-    { id: 8, name: "Fallout NV Radio New Vegas", route: "/api/falloutfm3.ogg" },
-    { id: 9, name: "Fallout 2 OST", route: "/api/falloutfm4.ogg" },
-    { id: 10, name: "Fallout 1 OST", route: "/api/falloutfm5.ogg" }
+    [
+        { id: 1, name: "Main Station", route: "/api/falloutfm1.ogg" }
+    ],
+    [
+        { id: 2, name: "Fallout 76 Classical", route: "/api/falloutfm9.ogg" },
+        { id: 3, name: "Fallout 76 General", route: "/api/falloutfm10.ogg" }
+    ],
+    [
+        { id: 4, name: "Fallout 4 Classical Radio", route: "/api/falloutfm7.ogg" },
+        { id: 5, name: "Fallout 4 Diamond City Radio", route: "/api/falloutfm6.ogg" },
+        { id: 6, name: "Fallout 4 MWTCF", route: "/api/falloutfm8.ogg" }
+    ],
+    [
+        { id: 7, name: "Fallout 3 Galaxy News Radio", route: "/api/falloutfm2.ogg" },
+        { id: 8, name: "Fallout NV Radio New Vegas", route: "/api/falloutfm3.ogg" }
+    ],
+    [
+        { id: 9, name: "Fallout 2 OST", route: "/api/falloutfm4.ogg" },
+        { id: 10, name: "Fallout 1 OST", route: "/api/falloutfm5.ogg" }
+    ]
 ];
 
-stationList.forEach(element => {
-    $('#station-list-pc-tab').append("<li><a onClick=\"playAudio(" + element.id + ",'" + element.name + "','" + element.route + "')\">" + element.name + "</a></li>");
-    $('#station-list-mobile').append("<option value='" + element.id + "'>" + element.name + "</option>");
+stationList.forEach(group => {
+    var stationGroup = "<li>";
+    group.forEach(station => {
+        $('#station-list-mobile').append("<option value='" + station.id + "'>" + station.name + "</option>");
+        stationGroup += "<a onClick=\"playAudio(" + station.id + ",'" + station.name + "','" + station.route + "')\">" + station.name + "</a> ";
+    });
+    stationGroup += "</li>";
+    $('#station-list-pc-tab').append(stationGroup);
 });
 
 async function playAudio(id, libelle, audio_flux) {
