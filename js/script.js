@@ -76,9 +76,16 @@ async function playAudio(id, libelle, audio_flux) {
 
 async function playSelectedAudio() {
     var value = $("#station-list-mobile option:selected").val();
+    var targetStation = 0;
     if (value != 0) {
-        var station = stationList[value - 1];
-        playAudio(station.id, station.name, station.route);
+        stationList.forEach(group => {
+            group.forEach(station => {
+                if (value == station.id) {
+                    targetStation = station;
+                }
+            });
+        });
+        playAudio(targetStation.id, targetStation.name, targetStation.route);
     }
 }
 
@@ -138,8 +145,15 @@ function checkCookie() {
         actualStationId = 1;
         setCookie("station", 1, 365);
     }
-    actualStationName = stationList[actualStationId - 1].name;
-    actualStationUri = stationList[actualStationId - 1].route;
+
+    stationList.forEach(group => {
+        group.forEach(station => {
+            if (actualStationId == station.id) {
+                actualStationName = station.name;
+                actualStationUri = station.route;
+            }
+        });
+    });
     $("#station-list-mobile").val(actualStationId);
 }
 
