@@ -1,3 +1,9 @@
+const userAgent = window.navigator.userAgent.toLowerCase();
+const ios = /iphone|ipod|ipad/.test(userAgent);
+if (!ios) {
+    $("#ios").remove();
+}
+
 $("div#ie").remove();
 $('body').attr('oncontextmenu', 'return false;');
 $('img').attr('draggable', 'false');
