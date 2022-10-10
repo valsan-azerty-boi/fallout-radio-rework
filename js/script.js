@@ -1,4 +1,9 @@
 $("div#ie").remove();
+$('body').attr('oncontextmenu', 'return false;');
+$('img').attr('draggable', 'false');
+$('#sliderAudio').attr('oncontextmenu', 'return false;');
+$('#sliderAudio').attr('draggable', 'false');
+$('#pause-button').hide();
 
 const falloutFmUri = "http://fallout.fm:8000";
 
@@ -13,25 +18,43 @@ var actualStationVolume = 0.5;
 const input = $("#sliderAudio")[0];
 
 const stationList = [
-    { id: 1, name: "Main Station", route: "/api/falloutfm1.ogg" },
-    { id: 2, name: "Fallout 76 Classical", route: "/api/falloutfm9.ogg" },
-    { id: 3, name: "Fallout 76 General", route: "/api/falloutfm10.ogg" },
-    { id: 4, name: "Fallout 4 Classical Radio", route: "/api/falloutfm7.ogg" },
-    { id: 5, name: "Fallout 4 Diamond City Radio", route: "/api/falloutfm6.ogg" },
-    { id: 6, name: "Fallout 4 MWTCF", route: "/api/falloutfm8.ogg" },
-    { id: 7, name: "Fallout 3 Galaxy News Radio", route: "/api/falloutfm2.ogg" },
-    { id: 8, name: "Fallout NV Radio New Vegas", route: "/api/falloutfm3.ogg" },
-    { id: 9, name: "Fallout 2 OST", route: "/api/falloutfm4.ogg" },
-    { id: 10, name: "Fallout 1 OST", route: "/api/falloutfm5.ogg" }
+    [
+        { id: 1, name: "Main Station", route: "/api/falloutfm1.ogg" }
+    ],
+    [
+        { id: 2, name: "Fallout 76 Classical", route: "/api/falloutfm9.ogg" },
+        { id: 3, name: "Fallout 76 General", route: "/api/falloutfm10.ogg" }
+    ],
+    [
+        { id: 4, name: "Fallout 4 Classical Radio", route: "/api/falloutfm7.ogg" },
+        { id: 5, name: "Fallout 4 Diamond City Radio", route: "/api/falloutfm6.ogg" },
+        { id: 6, name: "Fallout 4 MWTCF", route: "/api/falloutfm8.ogg" }
+    ],
+    [
+        { id: 7, name: "Fallout 3 Galaxy News Radio", route: "/api/falloutfm2.ogg" },
+        { id: 8, name: "Fallout NV Radio New Vegas", route: "/api/falloutfm3.ogg" }
+    ],
+    [
+        { id: 9, name: "Fallout 2 OST", route: "/api/falloutfm4.ogg" },
+        { id: 10, name: "Fallout 1 OST", route: "/api/falloutfm5.ogg" }
+    ]
 ];
 
-stationList.forEach(element => {
-    $('#station-list').append("<li><a onClick=\"playAudio(" + element.id + ",'" + element.name + "','" + element.route + "')\">" + element.name + "</a></li>");
+stationList.forEach(group => {
+    var stationGroup = "<li>";
+    group.forEach(station => {
+        $('#station-list-mobile').append("<option value='" + station.id + "'>" + station.name + "</option>");
+        stationGroup += "<a onClick=\"playAudio(" + station.id + ",'" + station.name + "','" + station.route + "')\">" + station.name + "</a> ";
+    });
+    stationGroup += "</li>";
+    $('#station-list-pc-tab').append(stationGroup);
 });
 
 async function playAudio(id, libelle, audio_flux) {
     try {
         $("audio").remove();
+        actualStationId = id;
+        actualStationName = libelle;
         if (window.location.href.indexOf("netlify") > -1) {
             actualStationUri = audio_flux;
         }
@@ -40,6 +63,10 @@ async function playAudio(id, libelle, audio_flux) {
         }
         $("body").append('<audio id="audio" autoplay src="' + actualStationUri + '" />');
         $("#audio").prop("volume", $("#audioLevel").val());
+        $('#play-button').hide();
+        $('#pause-button').show();
+        $("#station-list-mobile").val(id);
+        $('text').html(libelle);
         setCookie("station", id, 365);
         console.log('Playing: ' + libelle);
     } catch (ex) {
@@ -47,11 +74,27 @@ async function playAudio(id, libelle, audio_flux) {
     }
 }
 
+async function playSelectedAudio() {
+    var value = $("#station-list-mobile option:selected").val();
+    if (value != 0) {
+        var station = stationList[value - 1];
+        playAudio(station.id, station.name, station.route);
+    }
+}
+
+async function stopSelectedAudio() {
+    stopAudio();
+    $('#pause-button').hide();
+    $('#play-button').show();
+    $('text').html("No station");
+    console.log('Stop audio');
+}
+
 async function stopAudio() {
     try {
         $("audio").remove();
     } catch (ex) {
-        console.log('Failed to turn stop audio, Exception: ' + ex);
+        console.log('Failed to stop audio, Exception: ' + ex);
     }
 }
 
@@ -97,6 +140,7 @@ function checkCookie() {
     }
     actualStationName = stationList[actualStationId - 1].name;
     actualStationUri = stationList[actualStationId - 1].route;
+    $("#station-list-mobile").val(actualStationId);
 }
 
 function checkAudioPaused() {
@@ -357,3 +401,48 @@ function onBackKeyDown(e) {
         closeFullscreenMenu("nav-menu-station");
     }
 };
+
+$(document).ready(function () {
+    if (window.matchMedia("(max-width: 767px)").matches) {
+        closeFullscreenMenu("nav-menu-volume");
+        closeFullscreenMenu("nav-menu-station");
+        $('.pc-tab').hide();
+        $("#sliderAudio").appendTo("#sliderAudioMobileLi");
+        $('.mobile').show();
+    } else {
+
+        $('.mobile').hide();
+        $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
+        $('.pc-tab').show();
+    }
+});
+
+$(window).bind('orientationchange', check);
+function check() {
+    if (document.documentElement.clientWidth >= 767) {
+        $('.mobile').hide();
+        $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
+        $('.pc-tab').show();
+    } else {
+        closeFullscreenMenu("nav-menu-volume");
+        closeFullscreenMenu("nav-menu-station");
+        $('.pc-tab').hide();
+        $("#sliderAudio").appendTo("#sliderAudioMobileLi");
+        $('.mobile').show();
+    }
+};
+
+$(window).resize(function () {
+    if (document.documentElement.clientWidth >= 767) {
+        $('.mobile').hide();
+        $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
+        $('.pc-tab').show();
+    } else {
+        closeFullscreenMenu("nav-menu-volume");
+        closeFullscreenMenu("nav-menu-station");
+        $('.pc-tab').hide();
+        $("#sliderAudio").appendTo("#sliderAudioMobileLi");
+        $('.mobile').show();
+    }
+}).resize();
+

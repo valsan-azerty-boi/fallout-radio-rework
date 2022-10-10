@@ -6,6 +6,15 @@ html {
     display: none;
 }
 
+.pc-tab {
+    display: none;
+}
+
+.mobile {
+    display: none;
+    margin-top: 50px;
+}
+
 h2 {
     color: red;
     text-align: center;
@@ -53,11 +62,43 @@ h4 {
     font-size: calc(15px + 0.390625vw);
 }
 
+text {
+    pointer-events: none;
+    font-family: "Fallouty";
+    color: rgb(0, 100, 0);
+    text-align: center;
+    font-size: calc(20px + 0.390625vw);
+}
+
+.wrap {
+    position: relative;
+    float: left;
+}
+
+text#actualPlayingStationPcTab {
+    position: absolute;
+    color: rgb(0, 180, 0);
+    top: calc(60% + 1px);
+    left: calc(51.5% + 1px);
+    transform: translate(-50%, -50%);
+    display: block;
+    margin: 0;
+    font-size: calc(24px + 0.1vw);
+    max-width: 12ch;
+    background: var(--color-highlight);
+    --color-bg: #4b3e29b0;
+    --color-bg2: #4b3e29b0;
+    --color-highlight: #4b3e29b0;
+    border-radius: 1em;
+    border: 1px dotted;
+}
+
 img {
     -webkit-tap-highlight-color: transparent;
 }
 
 .responsive-img {
+    background-size: contain;
     position: relative;
     text-align: center;
     left: 50%;
@@ -105,6 +146,22 @@ img {
     filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
     width: calc(28px + 0.40vw);
     height: calc(18px + 0.40vw);
+}
+
+.icon-mouse-volume {
+    display: inline-flex;
+    align-self: center;
+    position: relative;
+    top: .1em;
+    width: calc(35px + 0.390625vw);
+}
+
+.icon-mouse-radio {
+    display: inline-flex;
+    align-self: center;
+    position: relative;
+    top: .05em;
+    width: calc(35px + 0.390625vw);
 }
 
 .flip-horizontally {
@@ -179,6 +236,7 @@ a {
     text-align: center;
     padding: 0;
     font-size: calc(25px + 0.40vw);
+    padding: 5px;
 }
 
 .fat-nav li a {
@@ -223,11 +281,18 @@ a {
 }
 
 input[type="range"] {
-    -webkit-appearance: none;
     background: transparent;
     width: 65%;
     max-width: 500px;
     outline: none;
+    -webkit-appearance: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 input[type="range"]:focus,
