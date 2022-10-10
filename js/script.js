@@ -52,7 +52,6 @@ stationList.forEach(group => {
 
 async function playAudio(id, libelle, audio_flux) {
     try {
-        $("audio").remove();
         actualStationId = id;
         actualStationName = libelle;
         if (window.location.href.indexOf("netlify") > -1) {
@@ -61,12 +60,13 @@ async function playAudio(id, libelle, audio_flux) {
         else {
             actualStationUri = falloutFmUri + audio_flux.replace('/api', '');
         }
-        $("body").append('<audio id="audio" autoplay src="' + actualStationUri + '" />');
+        $("#audio").prop("src", actualStationUri);
         $("#audio").prop("volume", $("#audioLevel").val());
         $('#play-button').hide();
         $('#pause-button').show();
         $("#station-list-mobile").val(id);
         $('text').html(libelle);
+        $('audio')[0].play();
         setCookie("station", id, 365);
         console.log('Playing: ' + libelle);
     } catch (ex) {
@@ -99,7 +99,7 @@ async function stopSelectedAudio() {
 
 async function stopAudio() {
     try {
-        $("audio").remove();
+        $('audio')[0].pause();
     } catch (ex) {
         console.log('Failed to stop audio, Exception: ' + ex);
     }
@@ -459,4 +459,3 @@ $(window).resize(function () {
         $('.mobile').show();
     }
 }).resize();
-
