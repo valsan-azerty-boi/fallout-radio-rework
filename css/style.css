@@ -373,9 +373,8 @@ input[type="range"]::-webkit-slider-runnable-track {
 @media only screen and (max-width: 767px) {
     html {
         background-color: rgb(0, 0, 0);
-        background-image: url("../img/bg-mobile-device.png");
-        background-size: cover;
-        height: 100%;
+        background: url("../img/bg-mobile-device.png") rgb(0, 0, 0) no-repeat;
+        background-size: 100vw 100vh;
     }
 
     input[type="range"]::-moz-range-thumb {

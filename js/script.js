@@ -171,12 +171,6 @@ function checkAudioPaused() {
     }
 }
 
-async function sleep(ms) {
-    await new Promise(
-        resolve => setTimeout(resolve, ms)
-    );
-}
-
 async function setAudio(value) {
     try {
         actualStationVolume = value;
