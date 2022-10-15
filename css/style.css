@@ -1,5 +1,9 @@
 html {
     background-color: rgb(0, 0, 0);
+    background-image: url("../img/bg-pc-tab.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 #ie {
@@ -188,24 +192,6 @@ a {
     position: relative;
 }
 
-@media (pointer: fine) {
-    .tooltip-mouse span {
-        pointer-events: none;
-        display: none;
-        font-family: "Gothic821";
-        color: rgb(0, 139, 0);
-        text-align: center;
-        font-size: calc(32px + 0.390625vw);
-    }
-
-    .tooltip-mouse:hover span {
-        pointer-events: none;
-        display: block;
-        position: fixed;
-        overflow: hidden;
-    }
-}
-
 .nav-station,
 .nav-volume,
 .fat-nav {
@@ -309,7 +295,7 @@ input[type="range"]::-moz-range-thumb {
     height: 25px;
     width: 25px;
     background-color: transparent;
-    background-image: url("../img/volume.png");
+    background-image: url("../img/volume-pc-tab.png");
     background-position: 0 0;
     background-size: cover;
     transform: scale(1.9) rotateZ(var(--thumb-rotate, 10deg));
@@ -342,7 +328,7 @@ input[type="range"]::-webkit-slider-thumb {
     height: 25px;
     width: 25px;
     background-color: transparent;
-    background-image: url("../img/volume.png");
+    background-image: url("../img/volume-pc-tab.png");
     background-position: 0 0;
     background-size: cover;
     transform: scale(1.9) rotateZ(var(--thumb-rotate, 10deg));
@@ -364,4 +350,57 @@ input[type="range"]::-webkit-slider-runnable-track {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     -webkit-appearance: none;
+}
+
+@media (pointer: fine) {
+    .tooltip-mouse span {
+        pointer-events: none;
+        display: none;
+        font-family: "Gothic821";
+        color: rgb(0, 139, 0);
+        text-align: center;
+        font-size: calc(32px + 0.390625vw);
+    }
+
+    .tooltip-mouse:hover span {
+        pointer-events: none;
+        display: block;
+        position: fixed;
+        overflow: hidden;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    html {
+        background-color: rgb(0, 0, 0);
+        background-image: url("../img/bg-mobile-device.png");
+        background-size: cover;
+        height: 100%;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        border: none;
+        height: 25px;
+        width: 25px;
+        background-color: transparent;
+        background-image: url("../img/volume-mobile.png");
+        background-position: 0 0;
+        background-size: cover;
+        transform: scale(1.9) rotateZ(var(--thumb-rotate, 10deg));
+        cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        border: none;
+        height: 25px;
+        width: 25px;
+        background-color: transparent;
+        background-image: url("../img/volume-mobile.png");
+        background-position: 0 0;
+        background-size: cover;
+        transform: scale(1.9) rotateZ(var(--thumb-rotate, 10deg));
+        cursor: pointer;
+        margin-top: -3px;
+        -webkit-appearance: none;
+    }
 }

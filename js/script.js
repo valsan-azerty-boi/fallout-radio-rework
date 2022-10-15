@@ -262,7 +262,7 @@ if (has_mouse_support || !is_touch_device) {
         tooltipSpanStationMouse.style.left = x;
     };
 } else {
-    $("img#radio").attr("src", "img/radio-touch-device.png");
+    $("img#radio").attr("src", "img/radio-pc-tab-touch-device.png");
     $("img").on("taphold", function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
