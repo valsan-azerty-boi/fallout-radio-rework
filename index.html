@@ -19,7 +19,7 @@
     <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon.png" />
     <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" type="text/css" href="css/style.css?version=1.10" />
+    <link rel="stylesheet" type="text/css" href="css/style.css?version=1.11" />
 </head>
 
 <body class="noselect">
@@ -53,10 +53,10 @@
         <div>
             <ul>
                 <li id="play-status-mobile">
-                    <img id="play-button" src="img/play.svg" class="icon-svg" alt="Play button"
+                    <img id="play-button" src="img/play.svg" class="icon-svg-mobile-play-pause-button" alt="Play button"
                         onClick="playSelectedAudio()" />
-                    <img id="pause-button" src="img/pause.svg" class="icon-svg" alt="Pause button"
-                        onClick="stopSelectedAudio()" />
+                    <img id="pause-button" src="img/pause.svg" class="icon-svg-mobile-play-pause-button"
+                        alt="Pause button" onClick="stopSelectedAudio()" />
                     <text id="actualPlayingStationMobile">No station</text>
                 </li>
                 <br />
@@ -157,7 +157,7 @@
         </div>
     </div>
 
-    <div>
+    <div class="footer">
         <h4>
             > <a href="https://github.com/valsan-azerty-boi/fallout-radio-rework" target="_blank">Open source code<img
                     src="img/open-source.svg" class="text-svg" alt="Open source icon" /></a>
@@ -168,7 +168,7 @@
             <span id="year">2022</span>
         </h4>
     </div>
-    <input id="audioLevel" name="audioLevel" type="number" style="display: none" value="0.5"></input>
+    <input id="audioLevel" name="audioLevel" type="number" value="0.5"></input>
     <audio id="audio" />
     <script type="text/javascript" src='js/jquery.min.js'></script>
     <script type="text/javascript" src='js/jquery.rwdImageMaps.min.js'></script>
