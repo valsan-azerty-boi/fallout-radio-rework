@@ -103,6 +103,13 @@ text#actualPlayingStationPcTab {
     border: 1px dotted;
 }
 
+.note-gif {
+    position: absolute;
+    margin: 3%;
+    margin-top: 1%;
+    filter: invert(54%) sepia(81%) saturate(4896%) hue-rotate(93deg) brightness(103%) contrast(105%);
+}
+
 img {
     -webkit-tap-highlight-color: transparent;
 }
@@ -156,6 +163,17 @@ img {
     filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
     width: calc(28px + 0.40vw);
     height: calc(18px + 0.40vw);
+}
+
+.icon-svg-mobile-play-pause-button {
+    display: inline-flex;
+    align-self: center;
+    position: relative;
+    top: .12em;
+    filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
+    width: calc(35px + 0.390625vw);
+    margin-bottom: -2%;
+    padding-right: 1%
 }
 
 .icon-mouse-volume {
@@ -415,15 +433,10 @@ input[type="range"]::-webkit-slider-runnable-track {
         padding-bottom: 2px;
     }
 
-    .icon-svg-mobile-play-pause-button {
-        display: inline-flex;
-        align-self: center;
-        position: relative;
-        top: .12em;
+    .note-gif {
+        position: absolute;
+        margin-left: 1%;
         filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
-        width: calc(35px + 0.390625vw);
-        margin-bottom: -2%;
-        padding-right: 1%
     }
 
     .icon-svg {

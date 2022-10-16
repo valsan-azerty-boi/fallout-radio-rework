@@ -71,7 +71,7 @@ async function playAudio(id, libelle, audio_flux) {
         $('#play-button').hide();
         $('#pause-button').show();
         $("#station-list-mobile").val(id);
-        $('text').html(libelle);
+        $('text').html(libelle + " <img src=\"img/note.gif\" class=\"note-gif\" />");
         $('audio')[0].play();
         setCookie("station", id, 365);
         console.log('Playing: ' + libelle);
