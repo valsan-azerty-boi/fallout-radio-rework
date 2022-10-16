@@ -413,6 +413,7 @@ input[type="range"]::-webkit-slider-runnable-track {
     }
 
     ul {
+        list-style-type: none;
         text-align: center;
         padding-top: 10%;
         margin-left: -10%;
@@ -434,8 +435,9 @@ input[type="range"]::-webkit-slider-runnable-track {
     }
 
     .note-gif {
-        position: absolute;
+        position: relative;
         margin-left: 1%;
+        margin-bottom: -2%;
         filter: invert(17%) sepia(75%) saturate(3212%) hue-rotate(100deg) brightness(99%) contrast(110%);
     }
 
