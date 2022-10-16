@@ -71,7 +71,7 @@ async function playAudio(id, libelle, audio_flux) {
         $('#play-button').hide();
         $('#pause-button').show();
         $("#station-list-mobile").val(id);
-        $('text').html(libelle);
+        $('text').html(libelle + " <img src=\"img/note.gif\" class=\"note-gif\" />");
         $('audio')[0].play();
         setCookie("station", id, 365);
         console.log('Playing: ' + libelle);
@@ -171,12 +171,6 @@ function checkAudioPaused() {
     }
 }
 
-async function sleep(ms) {
-    await new Promise(
-        resolve => setTimeout(resolve, ms)
-    );
-}
-
 async function setAudio(value) {
     try {
         actualStationVolume = value;
@@ -262,7 +256,7 @@ if (has_mouse_support || !is_touch_device) {
         tooltipSpanStationMouse.style.left = x;
     };
 } else {
-    $("img#radio").attr("src", "img/radio-touch-device.png");
+    $("img#radio").attr("src", "img/radio-pc-tab-touch-device.png");
     $("img").on("taphold", function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
