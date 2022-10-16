@@ -4,9 +4,7 @@
 
 ## A simple fanmade UI rework of Fallout FM
 I made it because I don't like the base UI of their app but love the concept.
-
-<img src="img/pc-tab-readme.gif" height="250" />
-<img src="img/mobile-pwa-readme.gif" height="250" />
+<img src="img/pc-tab-readme.gif" height="250" /> <img src="img/mobile-pwa-readme.gif" height="250" />
 
 ##  Technical details
 It's hosted on [Netlify](https://www.netlify.com/) and I use a <em>_redirects</em> conf file with it for bypassing Https call (the original station uses simple Http).
