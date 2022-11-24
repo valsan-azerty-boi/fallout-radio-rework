@@ -12,9 +12,14 @@ $('#sliderAudio').attr('draggable', 'false');
 $('#pause-button').hide();
 
 const falloutFmUri = "http://fallout.fm:8000";
+const falloutFmRedirectUri = "/falloutfm/station";
+const noStationPlayingText = "No station";
 
 const defaultAudioVolume = 0.5;
 const defaultStationId = 1;
+
+var actualAnimatedBackground = 0;
+const screenSizeSwitch = 767;
 
 var actualStationId = 1;
 var actualStationName = "";
@@ -25,24 +30,24 @@ const input = $("#sliderAudio")[0];
 
 const stationList = [
     [
-        { id: 1, name: "Main Station", route: "/api/falloutfm1.ogg" }
+        { id: 1, name: "Main Station", route: falloutFmRedirectUri + "/falloutfm1.ogg" }
     ],
     [
-        { id: 2, name: "Fallout 76 Classical", route: "/api/falloutfm9.ogg" },
-        { id: 3, name: "Fallout 76 General", route: "/api/falloutfm10.ogg" }
+        { id: 2, name: "Fallout 76 Classical", route: falloutFmRedirectUri + "/falloutfm9.ogg" },
+        { id: 3, name: "Fallout 76 General", route: falloutFmRedirectUri + "/falloutfm10.ogg" }
     ],
     [
-        { id: 4, name: "Fallout 4 Classical Radio", route: "/api/falloutfm7.ogg" },
-        { id: 5, name: "Fallout 4 Diamond City Radio", route: "/api/falloutfm6.ogg" },
-        { id: 6, name: "Fallout 4 MWTCF", route: "/api/falloutfm8.ogg" }
+        { id: 4, name: "Fallout 4 Classical Radio", route: falloutFmRedirectUri + "/falloutfm7.ogg" },
+        { id: 5, name: "Fallout 4 Diamond City Radio", route: falloutFmRedirectUri + "/falloutfm6.ogg" },
+        { id: 6, name: "Fallout 4 MWTCF", route: falloutFmRedirectUri + "/falloutfm8.ogg" }
     ],
     [
-        { id: 7, name: "Fallout 3 Galaxy News Radio", route: "/api/falloutfm2.ogg" },
-        { id: 8, name: "Fallout NV Radio New Vegas", route: "/api/falloutfm3.ogg" }
+        { id: 7, name: "Fallout 3 Galaxy News Radio", route: falloutFmRedirectUri + "/falloutfm2.ogg" },
+        { id: 8, name: "Fallout NV Radio New Vegas", route: falloutFmRedirectUri + "/falloutfm3.ogg" }
     ],
     [
-        { id: 9, name: "Fallout 2 OST", route: "/api/falloutfm4.ogg" },
-        { id: 10, name: "Fallout 1 OST", route: "/api/falloutfm5.ogg" }
+        { id: 9, name: "Fallout 2 OST", route: falloutFmRedirectUri + "/falloutfm4.ogg" },
+        { id: 10, name: "Fallout 1 OST", route: falloutFmRedirectUri + "/falloutfm5.ogg" }
     ]
 ];
 
@@ -56,6 +61,8 @@ stationList.forEach(group => {
     $('#station-list-pc-tab').append(stationGroup);
 });
 
+$('text').html(noStationPlayingText);
+
 async function playAudio(id, libelle, audio_flux) {
     try {
         actualStationId = id;
@@ -64,7 +71,7 @@ async function playAudio(id, libelle, audio_flux) {
             actualStationUri = audio_flux;
         }
         else {
-            actualStationUri = falloutFmUri + audio_flux.replace('/api', '');
+            actualStationUri = falloutFmUri + audio_flux.replace(falloutFmRedirectUri, '');
         }
         $("#audio").prop("src", actualStationUri);
         $("#audio").prop("volume", $("#audioLevel").val());
@@ -99,7 +106,7 @@ async function stopSelectedAudio() {
     stopAudio();
     $('#pause-button').hide();
     $('#play-button').show();
-    $('text').html("No station");
+    $('text').html(noStationPlayingText);
     console.log('Stop audio');
 }
 
@@ -135,6 +142,14 @@ function getCookie(cname) {
 }
 
 function checkCookie() {
+    let animatedBg = getCookie("animatedBg");
+    if (animatedBg != null && animatedBg != "") {
+        actualAnimatedBackground = animatedBg;
+    } else {
+        actualAnimatedBackground = 0;
+        setCookie("animatedBg", 0, 365);
+    }
+
     let audioLevel = getCookie("audioLevel");
     if (audioLevel != null && audioLevel != "") {
         actualStationVolume = audioLevel;
@@ -165,9 +180,9 @@ function checkCookie() {
 
 function checkAudioPaused() {
     if (!$("#audio").paused) {
-        console.log("audio on");
+        console.log("Audio is on.");
     } else {
-        console.log("audio off");
+        console.log("Audio is off (paused).");
     }
 }
 
@@ -185,8 +200,49 @@ async function setAudio(value) {
     }
 }
 
+function editPcTabBg(inType, outType) {
+    var bg = $("html").css('background-image').replace('url(', '').replace(')', '').replace('mobile-device', 'pc-tab').replace(inType, outType);
+    $("html").css("background", "none");
+    $("html").css("background-color", "rgb(0, 0, 0)");
+    $("html").css("background-image", "url(" + bg + ")");
+    $("html").css("background-repeat", "no-repeat");
+    $("html").css("background-position", "center");
+    $("html").css("background-size", "cover");
+}
+
+function editMobileBg(inType, outType) {
+    var bg = $("html").css('background-image').replace('url(', '').replace(')', '').replace('pc-tab', 'mobile-device').replace(inType, outType);
+    $("html").css("background-image", "none");
+    $("html").css("background", "url(" + bg + ") rgb(0, 0, 0) no-repeat");
+    $("html").css("background-size", "100vw 100vh");
+}
+
+async function setBg(value) {
+    try {
+        actualAnimatedBackground = value;
+        setCookie("animatedBg", value, 365);
+
+        if (document.documentElement.clientWidth >= screenSizeSwitch) {
+            if (actualAnimatedBackground == 1) {
+                editPcTabBg("png", "gif");
+            } else {
+                editPcTabBg("gif", "png");
+            }
+        } else {
+            if (actualAnimatedBackground == 1) {
+                editMobileBg("png", "gif");
+            } else {
+                editMobileBg("gif", "png");
+            }
+        }
+    } catch (ex) {
+        console.log('Failed to set background, Exception: ' + ex);
+    }
+}
+
 checkCookie();
 setAudio(actualStationVolume);
+setBg(actualAnimatedBackground);
 
 input.addEventListener("input", event => {
     const value = Number(input.value) / 20;
@@ -213,7 +269,6 @@ function getWindow(elem) {
     return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
 }
 function offset(elem) {
-
     var docElem, win,
         box = { top: 0, left: 0 },
         doc = elem && elem.ownerDocument;
@@ -419,23 +474,23 @@ function onBackKeyDown(e) {
 };
 
 $(document).ready(function () {
-    if (window.matchMedia("(max-width: 767px)").matches) {
+    if (window.matchMedia("(max-width: " + screenSizeSwitch + "px)").matches) {
         closeFullscreenMenu("nav-menu-volume");
         closeFullscreenMenu("nav-menu-station");
         $('.pc-tab').hide();
         $("#sliderAudio").appendTo("#sliderAudioMobileLi");
         $('.mobile').show();
     } else {
-
         $('.mobile').hide();
         $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
         $('.pc-tab').show();
     }
+    setBg(actualAnimatedBackground);
 });
 
 $(window).bind('orientationchange', check);
 function check() {
-    if (document.documentElement.clientWidth >= 767) {
+    if (document.documentElement.clientWidth >= screenSizeSwitch) {
         $('.mobile').hide();
         $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
         $('.pc-tab').show();
@@ -449,7 +504,7 @@ function check() {
 };
 
 $(window).resize(function () {
-    if (document.documentElement.clientWidth >= 767) {
+    if (document.documentElement.clientWidth >= screenSizeSwitch) {
         $('.mobile').hide();
         $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
         $('.pc-tab').show();
@@ -460,4 +515,17 @@ $(window).resize(function () {
         $("#sliderAudio").appendTo("#sliderAudioMobileLi");
         $('.mobile').show();
     }
+    setBg(actualAnimatedBackground);
 }).resize();
+
+function ensurePlayingStation() {
+    var actualAudio = $('audio');
+    if (($('#actualPlayingStationMobile').text() != noStationPlayingText
+        || $('#actualPlayingStationPcTab').text() != noStationPlayingText) &&
+        actualAudio[0] != null
+    ) {
+        actualAudio[0].play();
+    }
+}
+ensurePlayingStation();
+setInterval(ensurePlayingStation, 5000);
