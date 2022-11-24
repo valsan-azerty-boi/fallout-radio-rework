@@ -136,6 +136,12 @@ img {
     width: calc(35px + 0.390625vw);
 }
 
+.top-button-svg-grey {
+    margin: 5px;
+    filter: invert(56%) sepia(6%) saturate(28%) hue-rotate(314deg) brightness(95%) contrast(90%);
+    width: calc(35px + 0.390625vw);
+}
+
 .icon-svg {
     display: inline-flex;
     align-self: center;
@@ -192,6 +198,10 @@ img {
     width: calc(35px + 0.390625vw);
 }
 
+.flip-vertically {
+    transform: scaleY(-1);
+}
+
 .flip-horizontally {
     transform: scaleX(-1);
 }
@@ -215,6 +225,7 @@ a {
     position: relative;
 }
 
+.nav-settings,
 .nav-station,
 .nav-volume,
 .fat-nav {

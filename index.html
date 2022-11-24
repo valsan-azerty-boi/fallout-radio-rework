@@ -19,7 +19,7 @@
     <link rel="apple-touch-icon" sizes="72x72" href="img/icons-192.png" />
     <link rel="apple-touch-icon" sizes="114x114" href="img/icons-192.png" />
     <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" type="text/css" href="css/style.css?version=1.13" />
+    <link rel="stylesheet" type="text/css" href="css/style.css?version=2.2" />
 </head>
 
 <body class="noselect">
@@ -71,16 +71,26 @@
                     <img src="img/audio.svg" class="icon-svg flip-horizontally" alt="Audio icon" />
                 </li>
             </ul>
+            <ul>
+                <li id="checkAnimatedBgMobileLi" class="noselect">
+                    <img src="img/bg.svg" class="icon-svg flip-horizontally" alt="Animate background button"
+                        onClick="switchSetBg()" />
+                </li>
+            </ul>
         </div>
     </div>
 
     <div class="pc-tab">
         <div id="nav-menu-volume" class="fat-nav nav-volume">
             <div class="fat-nav__wrapper">
-                <img src="img/cross.svg" class="top-button-svg" alt="Cross icon to leave volume menu"
+                <img src="img/cross.svg" class="top-button-svg" alt="Cross icon to leave menu"
                     onClick="closeFullscreenMenu('nav-menu-volume')" />
+                <img src="img/audio.svg" class="top-button-svg-grey flip-horizontally"
+                    alt="Audio icon to go to volume menu" />
                 <img src="img/radio.svg" class="top-button-svg" alt="Radio icon to go to station menu"
                     onClick="switchFullscreenMenu('nav-menu-volume','nav-menu-station')" />
+                <img src="img/settings.svg" class="top-button-svg" alt="Settings icon to go to settings menu"
+                    onClick="switchFullscreenMenu('nav-menu-volume','nav-menu-settings')" />
                 <br />
                 <ul>
                     <h1>Volume <img src="img/audio.svg" class="icon-svg flip-horizontally" alt="Audio icon" /></h1>
@@ -98,6 +108,11 @@
                             station
                             menu <img src="img/radio.svg" class="text-button-svg" alt="Radio icon" /></a>
                     </li>
+                    <li class="sub-menu-li"><a onClick="switchFullscreenMenu('nav-menu-volume','nav-menu-settings')">Go
+                            to
+                            settings
+                            menu <img src="img/settings.svg" class="text-button-svg" alt="Settings icon" /></a>
+                    </li>
                     <li><a onClick="closeFullscreenMenu('nav-menu-volume')">Close menu <img src="img/cross.svg"
                                 class="text-button-svg" alt="Cross icon" /></a></li>
                 </ul>
@@ -105,10 +120,13 @@
         </div>
         <div id="nav-menu-station" class="fat-nav nav-station">
             <div class="fat-nav__wrapper">
-                <img src="img/cross.svg" class="top-button-svg" alt="Cross icon to leave station menu"
+                <img src="img/cross.svg" class="top-button-svg" alt="Cross icon to leave menu"
                     onClick="closeFullscreenMenu('nav-menu-station')" />
                 <img src="img/audio.svg" class="top-button-svg flip-horizontally" alt="Audio icon to go to volume menu"
                     onClick="switchFullscreenMenu('nav-menu-station','nav-menu-volume')" />
+                <img src="img/radio.svg" class="top-button-svg-grey" alt="Radio icon to go to station menu" />
+                <img src="img/settings.svg" class="top-button-svg" alt="Settings icon to go to settings menu"
+                    onClick="switchFullscreenMenu('nav-menu-station','nav-menu-settings')" />
                 <br />
                 <ul id="station-list-pc-tab">
                     <h1>Station <img src="img/radio.svg" class="icon-svg" alt="Radio icon" /></h1>
@@ -117,7 +135,47 @@
                     <li><a onClick="switchFullscreenMenu('nav-menu-station','nav-menu-volume')">Go to volume menu <img
                                 src="img/audio.svg" class="text-button-svg flip-horizontally" alt="Audio icon" /></a>
                     </li>
+                    <li class="sub-menu-li"><a onClick="switchFullscreenMenu('nav-menu-station','nav-menu-settings')">Go
+                            to
+                            settings
+                            menu <img src="img/settings.svg" class="text-button-svg" alt="Settings icon" /></a>
+                    </li>
                     <li><a onClick="closeFullscreenMenu('nav-menu-station')">Close menu <img src="img/cross.svg"
+                                class="text-button-svg" alt="Cross icon" /></a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="nav-menu-settings" class="fat-nav nav-settings">
+            <div class="fat-nav__wrapper">
+                <img src="img/cross.svg" class="top-button-svg" alt="Cross icon to leave menu"
+                    onClick="closeFullscreenMenu('nav-menu-settings')" />
+                <img src="img/audio.svg" class="top-button-svg flip-horizontally" alt="Audio icon to go to volume menu"
+                    onClick="switchFullscreenMenu('nav-menu-settings','nav-menu-volume')" />
+                <img src="img/radio.svg" class="top-button-svg" alt="Radio icon to go to station menu"
+                    onClick="switchFullscreenMenu('nav-menu-settings','nav-menu-station')" />
+                <img src="img/settings.svg" class="top-button-svg-grey" alt="Settings icon to go to settings menu" />
+                <br />
+                <ul id="settings-list-pc-tab">
+                    <h1>Settings <img src="img/settings.svg" class="icon-svg" alt="Settings icon" /></h1>
+                </ul>
+                <ul class="sub-menu-li">
+                    <li id="checkAnimatedBgPcTabLi" class="noselect">
+                        <a onClick="switchSetBg()">
+                            <img src="img/bg.svg" class="icon-svg flip-horizontally" alt="Animate background button"
+                                onClick="switchSetBg()" />
+                            Animate background</a>
+                    </li>
+                </ul>
+                <ul class="sub-menu-li">
+                    <li><a onClick="switchFullscreenMenu('nav-menu-settings','nav-menu-volume')">Go to volume menu <img
+                                src="img/audio.svg" class="text-button-svg flip-horizontally" alt="Audio icon" /></a>
+                    </li>
+                    <li class="sub-menu-li"><a onClick="switchFullscreenMenu('nav-menu-settings','nav-menu-station')">Go
+                            to
+                            station
+                            menu <img src="img/radio.svg" class="text-button-svg" alt="Radio icon" /></a>
+                    </li>
+                    <li><a onClick="closeFullscreenMenu('nav-menu-settings')">Close menu <img src="img/cross.svg"
                                 class="text-button-svg" alt="Cross icon" /></a></li>
                 </ul>
             </div>
@@ -143,6 +201,12 @@
                         href="javascript:void(0)" class="hamburger" coords="655,593,38" shape="circle">
                     <span id="tooltip-span-station-mouse">Station <i
                             class="material-icons icon-mouse-radio">&#xe03e;</i></span>
+                </div>
+                <div class="tooltip-mouse">
+                    <area data-name="areaChangeSettings" id="areaChangeSettings" target="_self" alt="Settings button"
+                        href="javascript:void(0)" class="hamburger" coords="0,0,0" shape="circle">
+                    <span id="tooltip-span-settings-mouse">Settings
+                    </span>
                 </div>
                 <div>
                     <area data-name="station-name-area" alt="Station name" coords="452,489,454,490" shape="rect">
@@ -172,7 +236,7 @@
     <audio id="audio" />
     <script type="text/javascript" src='js/jquery.min.js'></script>
     <script type="text/javascript" src='js/jquery.rwdImageMaps.min.js'></script>
-    <script type="text/javascript" src='js/script.js?version=1.12'></script>
+    <script type="text/javascript" src='js/script.js?version=2.2'></script>
 </body>
 
 </html>
