@@ -178,14 +178,6 @@ function checkCookie() {
     $("#station-list-mobile").val(actualStationId);
 }
 
-function checkAudioPaused() {
-    if (!$("#audio").paused) {
-        console.log("Audio is on.");
-    } else {
-        console.log("Audio is off (paused).");
-    }
-}
-
 async function setAudio(value) {
     try {
         actualStationVolume = value;
@@ -460,6 +452,20 @@ document.onkeydown = function (evt) {
         closeFullscreenMenu("nav-menu-station");
     }
 };
+
+var k = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65], n = 0;
+$(document).keydown(function (e) {
+    if (e.keyCode === k[n++]) {
+        if (n === k.length) {
+            setBg((actualAnimatedBackground == 1) ? 0 : 1);
+            n = 0;
+            return false;
+        }
+    }
+    else {
+        n = 0;
+    }
+})
 
 function onDeviceReady() {
     document.addEventListener("backbutton", onBackKeyDown, false);
