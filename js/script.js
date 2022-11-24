@@ -19,7 +19,8 @@ const defaultAudioVolume = 0.5;
 const defaultStationId = 1;
 
 var actualAnimatedBackground = 0;
-const screenSizeSwitch = 767;
+const screenSizeSwitchWidth = 767;
+const showFooterMinHeight = 569;
 
 var actualStationId = 1;
 var actualStationName = "";
@@ -209,12 +210,12 @@ function editMobileBg(inType, outType) {
     $("html").css("background-size", "100vw 100vh");
 }
 
-async function setBg(value) {
+function setBg(value) {
     try {
         actualAnimatedBackground = value;
         setCookie("animatedBg", value, 365);
 
-        if (document.documentElement.clientWidth >= screenSizeSwitch) {
+        if (document.documentElement.clientWidth >= screenSizeSwitchWidth) {
             if (actualAnimatedBackground == 1) {
                 editPcTabBg("png", "gif");
             } else {
@@ -229,6 +230,14 @@ async function setBg(value) {
         }
     } catch (ex) {
         console.log('Failed to set background, Exception: ' + ex);
+    }
+}
+
+async function switchSetBg() {
+    try {
+        setBg((actualAnimatedBackground == 1) ? 0 : 1);
+    } catch (ex) {
+        console.log('Failed to set background (switch method), Exception: ' + ex);
     }
 }
 
@@ -363,7 +372,6 @@ if (has_mouse_support || !is_touch_device) {
         };
     }
 }(jQuery, window, document));
-
 (function () {
     $.fatNavVolume();
 }());
@@ -419,9 +427,63 @@ if (has_mouse_support || !is_touch_device) {
         };
     }
 }(jQuery, window, document));
-
 (function () {
     $.fatNavStation();
+}());
+
+(function ($, window, document) {
+    var pluginName = 'fatNavSettings',
+        defaults = {};
+
+    function Plugin(options) {
+        this.settings = $.extend({}, defaults, options);
+        this._defaults = defaults;
+        this._name = pluginName;
+        this.init();
+    }
+
+    $.extend(Plugin.prototype, {
+        init: function () {
+            var self = this;
+            var $nav = this.$nav = $('.nav-settings');
+            var $hamburger = this.$hamburger = $('#areaChangeSettings');
+
+            if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
+                $nav.children().css({
+                    'height': '110%',
+                    'transform': 'translateY(-5%)'
+                });
+            }
+
+            $().add($hamburger).on('click', function (e) {
+                self.toggleNav();
+            });
+        },
+
+        toggleNav: function () {
+            var self = this;
+            this.$nav.fadeToggle(400);
+            self.toggleBodyOverflow();
+            $().add(this.$hamburger).add(this.$nav).toggleClass('active');
+        },
+
+        toggleBodyOverflow: function () {
+            var self = this;
+            var $body = $('body');
+            var isNavOpen = $body.hasClass('no-scroll');
+            $body.css('overflow', isNavOpen ? 'hidden' : self._bodyOverflow);
+        }
+
+    });
+
+    if (typeof $[pluginName] === 'undefined') {
+        $[pluginName] = function (options) {
+            return new Plugin(this, options);
+        };
+    }
+}(jQuery, window, document));
+(function () {
+    $.fatNavSettings();
 }());
 
 function closeFullscreenMenu(idMenuToClose) {
@@ -448,8 +510,16 @@ document.onkeydown = function (evt) {
         isEscape = (evt.keyCode === 27);
     }
     if (isEscape) {
-        closeFullscreenMenu("nav-menu-volume");
-        closeFullscreenMenu("nav-menu-station");
+        if (!$('#nav-menu-volume').is(':visible')
+            && !$('#nav-menu-station').is(':visible')
+            && !$('#nav-menu-settings').is(':visible')) {
+            switchFullscreenMenu("nav-menu-settings", "nav-menu-settings");
+        }
+        else {
+            closeFullscreenMenu("nav-menu-settings");
+            closeFullscreenMenu("nav-menu-volume");
+            closeFullscreenMenu("nav-menu-station");
+        }
     }
 };
 
@@ -479,48 +549,61 @@ function onBackKeyDown(e) {
     }
 };
 
-$(document).ready(function () {
-    if (window.matchMedia("(max-width: " + screenSizeSwitch + "px)").matches) {
-        closeFullscreenMenu("nav-menu-volume");
-        closeFullscreenMenu("nav-menu-station");
-        $('.pc-tab').hide();
-        $("#sliderAudio").appendTo("#sliderAudioMobileLi");
-        $('.mobile').show();
+function setFooter() {
+    if (document.documentElement.clientWidth < screenSizeSwitchWidth) {
+        if (document.documentElement.clientHeight >= showFooterMinHeight) {
+            $('.footer').show();
+        } else {
+            $('.footer').hide();
+        }
     } else {
-        $('.mobile').hide();
-        $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
-        $('.pc-tab').show();
+        $('.footer').show();
     }
+}
+
+function doWhenMobile() {
+    closeFullscreenMenu("nav-menu-volume");
+    closeFullscreenMenu("nav-menu-station");
+    closeFullscreenMenu("nav-menu-settings");
+    $('.pc-tab').hide();
+    $("#sliderAudio").appendTo("#sliderAudioMobileLi");
+    $('.mobile').show();
+}
+
+function doWhenPcTab() {
+    $('.mobile').hide();
+    $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
+    $('.pc-tab').show();
+}
+
+$(document).ready(function () {
+    if (window.matchMedia("(max-width: " + screenSizeSwitchWidth + "px)").matches) {
+        doWhenMobile()
+    } else {
+        doWhenPcTab()
+    }
+    setFooter();
     setBg(actualAnimatedBackground);
 });
 
 $(window).bind('orientationchange', check);
 function check() {
-    if (document.documentElement.clientWidth >= screenSizeSwitch) {
-        $('.mobile').hide();
-        $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
-        $('.pc-tab').show();
+    if (document.documentElement.clientWidth >= screenSizeSwitchWidth) {
+        doWhenPcTab()
     } else {
-        closeFullscreenMenu("nav-menu-volume");
-        closeFullscreenMenu("nav-menu-station");
-        $('.pc-tab').hide();
-        $("#sliderAudio").appendTo("#sliderAudioMobileLi");
-        $('.mobile').show();
+        doWhenMobile()
     }
+    setFooter();
+    setBg(actualAnimatedBackground);
 };
 
 $(window).resize(function () {
-    if (document.documentElement.clientWidth >= screenSizeSwitch) {
-        $('.mobile').hide();
-        $("#sliderAudio").appendTo("#sliderAudioPcTabLi");
-        $('.pc-tab').show();
+    if (document.documentElement.clientWidth >= screenSizeSwitchWidth) {
+        doWhenPcTab()
     } else {
-        closeFullscreenMenu("nav-menu-volume");
-        closeFullscreenMenu("nav-menu-station");
-        $('.pc-tab').hide();
-        $("#sliderAudio").appendTo("#sliderAudioMobileLi");
-        $('.mobile').show();
+        doWhenMobile()
     }
+    setFooter();
     setBg(actualAnimatedBackground);
 }).resize();
 
