@@ -65,9 +65,15 @@ stationList.forEach(group => {
 $('text').html(noStationPlayingText);
 
 function hideMediaSessionNotif() {
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.setActionHandler('seekbackward', null);
-    }
+    // if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('play', null);
+    navigator.mediaSession.setActionHandler('pause', null);
+    navigator.mediaSession.setActionHandler('seekbackward', null);
+    navigator.mediaSession.setActionHandler('seekforward', null);
+    navigator.mediaSession.setActionHandler('previoustrack', null);
+    navigator.mediaSession.setActionHandler('nexttrack', null);
+    // navigator.mediaSession = null;
+    // }
 }
 
 async function playAudio(id, libelle, audio_flux) {
