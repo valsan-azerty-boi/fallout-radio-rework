@@ -65,15 +65,36 @@ stationList.forEach(group => {
 $('text').html(noStationPlayingText);
 
 function hideMediaSessionNotif() {
-    // if ('mediaSession' in navigator) {
-    navigator.mediaSession.setActionHandler('play', null);
-    navigator.mediaSession.setActionHandler('pause', null);
-    navigator.mediaSession.setActionHandler('seekbackward', null);
-    navigator.mediaSession.setActionHandler('seekforward', null);
-    navigator.mediaSession.setActionHandler('previoustrack', null);
-    navigator.mediaSession.setActionHandler('nexttrack', null);
-    // navigator.mediaSession = null;
-    // }
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({});
+        navigator.mediaSession.setActionHandler('play', () => {
+            console.log("Do nothing");
+        });
+        navigator.mediaSession.setActionHandler('pause', () => {
+            console.log("Do nothing");
+        });
+        navigator.mediaSession.setActionHandler('stop', () => {
+            console.log("Do nothing");
+        });
+        navigator.mediaSession.setActionHandler('seekbackward', () => {
+            console.log("Do nothing");
+        });
+        navigator.mediaSession.setActionHandler('seekforward', () => {
+            console.log("Do nothing");
+        });
+        navigator.mediaSession.setActionHandler('previoustrack', () => {
+            console.log("Do nothing");
+        });
+        navigator.mediaSession.setActionHandler('nexttrack', () => {
+            console.log("Do nothing");
+        });
+        navigator.mediaSession.setActionHandler('seekto', () => {
+            console.log("Do nothing");
+        });
+        navigator.mediaSession.setActionHandler('skipad', () => {
+            console.log("Do nothing");
+        });
+    }
 }
 
 async function playAudio(id, libelle, audio_flux) {
