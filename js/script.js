@@ -26,6 +26,7 @@ var actualStationId = 1;
 var actualStationName = "";
 var actualStationUri = "";
 var actualStationVolume = 0.5;
+var isPlaying = false;
 
 const input = $("#sliderAudio")[0];
 
@@ -64,6 +65,7 @@ stationList.forEach(group => {
 
 $('text').html(noStationPlayingText);
 
+
 async function playAudio(id, libelle, audio_flux) {
     try {
         actualStationId = id;
@@ -81,6 +83,7 @@ async function playAudio(id, libelle, audio_flux) {
         $("#station-list-mobile").val(id);
         $('text').html(libelle + " <img src=\"img/note.gif\" class=\"note-gif\" />");
         $('audio')[0].play();
+        isPlaying = true;
         setCookie("station", id, 365);
         console.log('Playing: ' + libelle);
     } catch (ex) {
@@ -102,6 +105,14 @@ async function playSelectedAudio() {
         playAudio(targetStation.id, targetStation.name, targetStation.route);
     }
 }
+async function stopAudio() {
+    try {
+        $('audio')[0].pause();
+        isPlaying = false;
+    } catch (ex) {
+        console.log('Failed to stop audio, Exception: ' + ex);
+    }
+}
 
 async function stopSelectedAudio() {
     stopAudio();
@@ -111,13 +122,6 @@ async function stopSelectedAudio() {
     console.log('Stop audio');
 }
 
-async function stopAudio() {
-    try {
-        $('audio')[0].pause();
-    } catch (ex) {
-        console.log('Failed to stop audio, Exception: ' + ex);
-    }
-}
 
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
@@ -606,15 +610,3 @@ $(window).resize(function () {
     setFooter();
     setBg(actualAnimatedBackground);
 }).resize();
-
-function ensurePlayingStation() {
-    var actualAudio = $('audio');
-    if (($('#actualPlayingStationMobile').text() != noStationPlayingText
-        || $('#actualPlayingStationPcTab').text() != noStationPlayingText) &&
-        actualAudio[0] != null
-    ) {
-        actualAudio[0].play();
-    }
-}
-ensurePlayingStation();
-setInterval(ensurePlayingStation, 5000);
