@@ -26,6 +26,7 @@ var actualStationId = 1;
 var actualStationName = "";
 var actualStationUri = "";
 var actualStationVolume = 0.5;
+var isPlaying = false;
 
 const input = $("#sliderAudio")[0];
 
@@ -64,38 +65,6 @@ stationList.forEach(group => {
 
 $('text').html(noStationPlayingText);
 
-function hideMediaSessionNotif() {
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({});
-        navigator.mediaSession.setActionHandler('play', () => {
-            console.log("Do nothing");
-        });
-        navigator.mediaSession.setActionHandler('pause', () => {
-            console.log("Do nothing");
-        });
-        navigator.mediaSession.setActionHandler('stop', () => {
-            console.log("Do nothing");
-        });
-        navigator.mediaSession.setActionHandler('seekbackward', () => {
-            console.log("Do nothing");
-        });
-        navigator.mediaSession.setActionHandler('seekforward', () => {
-            console.log("Do nothing");
-        });
-        navigator.mediaSession.setActionHandler('previoustrack', () => {
-            console.log("Do nothing");
-        });
-        navigator.mediaSession.setActionHandler('nexttrack', () => {
-            console.log("Do nothing");
-        });
-        navigator.mediaSession.setActionHandler('seekto', () => {
-            console.log("Do nothing");
-        });
-        navigator.mediaSession.setActionHandler('skipad', () => {
-            console.log("Do nothing");
-        });
-    }
-}
 
 async function playAudio(id, libelle, audio_flux) {
     try {
@@ -114,9 +83,9 @@ async function playAudio(id, libelle, audio_flux) {
         $("#station-list-mobile").val(id);
         $('text').html(libelle + " <img src=\"img/note.gif\" class=\"note-gif\" />");
         $('audio')[0].play();
+        isPlaying = true;
         setCookie("station", id, 365);
         console.log('Playing: ' + libelle);
-        hideMediaSessionNotif();
     } catch (ex) {
         console.log('Failed to play: ' + libelle + ', Exception: ' + ex);
     }
@@ -136,6 +105,14 @@ async function playSelectedAudio() {
         playAudio(targetStation.id, targetStation.name, targetStation.route);
     }
 }
+async function stopAudio() {
+    try {
+        $('audio')[0].pause();
+        isPlaying = false;
+    } catch (ex) {
+        console.log('Failed to stop audio, Exception: ' + ex);
+    }
+}
 
 async function stopSelectedAudio() {
     stopAudio();
@@ -143,17 +120,8 @@ async function stopSelectedAudio() {
     $('#play-button').show();
     $('text').html(noStationPlayingText);
     console.log('Stop audio');
-    hideMediaSessionNotif();
 }
 
-async function stopAudio() {
-    try {
-        $('audio')[0].pause();
-    } catch (ex) {
-        console.log('Failed to stop audio, Exception: ' + ex);
-    }
-    hideMediaSessionNotif();
-}
 
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
@@ -227,7 +195,6 @@ async function setAudio(value) {
     } catch (ex) {
         console.log('Failed to set audio level, Exception: ' + ex);
     }
-    hideMediaSessionNotif();
 }
 
 function editPcTabBg(inType, outType) {
@@ -643,16 +610,3 @@ $(window).resize(function () {
     setFooter();
     setBg(actualAnimatedBackground);
 }).resize();
-
-function ensurePlayingStation() {
-    var actualAudio = $('audio');
-    if (($('#actualPlayingStationMobile').text() != noStationPlayingText
-        || $('#actualPlayingStationPcTab').text() != noStationPlayingText) &&
-        actualAudio[0] != null
-    ) {
-        actualAudio[0].play();
-    }
-    hideMediaSessionNotif();
-}
-ensurePlayingStation();
-setInterval(ensurePlayingStation, 5000);
