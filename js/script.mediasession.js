@@ -8,13 +8,8 @@ if (('mediaSession' in navigator)) {
     $("audio")[0].session = navigator.mediaSession;
 
     const actionHandlers = [
-        ['play', async () => {
-            console.log("Keypress on media button: play");
-        }],
-        ['pause', async () => {
-            console.log("Keypress on media button: pause");
-
-        }],
+        ['play', async () => { console.log("Keypress on media button: play"); }],
+        ['pause', async () => { console.log("Keypress on media button: pause"); }],
         ['stop', async () => { console.log("Keypress on media button: stop"); }]
     ]
 
@@ -34,15 +29,10 @@ function ensurePlayingStation() {
         actualAudio[0] != null && isPlaying
     ) {
         actualAudio[0].play();
-
-        if (('mediaSession' in navigator)) {
-            navigator.mediaSession.metadata.title = actualStationName;
-            navigator.mediaSession.metadata.artist = "fallout-radio-rework";
-        }
     }
     else {
         actualAudio[0].pause();
     }
 }
 ensurePlayingStation();
-setInterval(ensurePlayingStation, 100);
+setInterval(ensurePlayingStation, 20);
