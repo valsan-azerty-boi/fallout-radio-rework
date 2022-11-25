@@ -64,6 +64,12 @@ stationList.forEach(group => {
 
 $('text').html(noStationPlayingText);
 
+function hideMediaSessionNotif() {
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.setActionHandler('seekbackward', null);
+    }
+}
+
 async function playAudio(id, libelle, audio_flux) {
     try {
         actualStationId = id;
@@ -83,6 +89,7 @@ async function playAudio(id, libelle, audio_flux) {
         $('audio')[0].play();
         setCookie("station", id, 365);
         console.log('Playing: ' + libelle);
+        hideMediaSessionNotif();
     } catch (ex) {
         console.log('Failed to play: ' + libelle + ', Exception: ' + ex);
     }
@@ -109,6 +116,7 @@ async function stopSelectedAudio() {
     $('#play-button').show();
     $('text').html(noStationPlayingText);
     console.log('Stop audio');
+    hideMediaSessionNotif();
 }
 
 async function stopAudio() {
@@ -117,6 +125,7 @@ async function stopAudio() {
     } catch (ex) {
         console.log('Failed to stop audio, Exception: ' + ex);
     }
+    hideMediaSessionNotif();
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -191,6 +200,7 @@ async function setAudio(value) {
     } catch (ex) {
         console.log('Failed to set audio level, Exception: ' + ex);
     }
+    hideMediaSessionNotif();
 }
 
 function editPcTabBg(inType, outType) {
@@ -615,6 +625,7 @@ function ensurePlayingStation() {
     ) {
         actualAudio[0].play();
     }
+    hideMediaSessionNotif();
 }
 ensurePlayingStation();
 setInterval(ensurePlayingStation, 5000);
